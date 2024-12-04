@@ -83,11 +83,43 @@ function RegisterForm() {
     </form>
 }
 
+function PasswordResetForm() {
+    const { post, data, setData, errors } = useForm({ email: '', });
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        post('/forgot-password');
+    }
+
+    function handleChange(event) {
+        setData('email', event.target.value);
+    }
+
+    return <form onSubmit={handleSubmit}>
+        Email: <input
+            type="email"
+            name="email"
+            value={data.email}
+            onChange={handleChange}
+        />
+        {errors.email && <p>{errors.email}</p> }
+        <div>
+            <button type="submit">&raquo; Submit</button>
+        </div>
+    </form>
+}
+
 export default (props) => {
     return <div>
+        <div>{props.status && <p>{props.status}</p>}</div>
         <section>
             <h2>Login form</h2>
             <LoginForm />
+        </section>
+        <hr />
+        <section>
+            <h2>Forgot your password?</h2>
+            <PasswordResetForm />
         </section>
         <hr />
         <section>

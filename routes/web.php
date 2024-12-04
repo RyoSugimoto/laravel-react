@@ -6,8 +6,18 @@ use Illuminate\support\Facades\Auth;
 
 Route::get('/', function ()
 {
-    return inertia('Auth', []);
-})->name('login')->middleware('guest');
+    return inertia('Auth', [
+        /**
+         * 新パスワードの設定が成功した場合に返すメッセージ
+         * @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-response
+         * パスワード再設定のリクエストが成功した場合に返すメッセージ
+         * @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-link-request-response
+         */
+        'status' => session('status', ''),
+    ]);
+})
+->name('login')
+->middleware('guest');
 
 Route::get('/home', function ()
 {
@@ -16,4 +26,23 @@ Route::get('/home', function ()
         'name' => $user?->name,
         'email' => $user?->email,
     ]);
-})->middleware('auth');
+})
+->middleware('auth');
+
+/**
+ * Fortifyの設定（ `config/fortify.php` ） で
+ * `'view'` を `false` にした場合、
+ * 名前が `password.reset` のルートで
+ * パスワード再設定用のページを表示させる必要がある。
+ * @see https://laravel.com/docs/11.x/fortify#disabling-views-and-password-reset
+ */
+Route::get('/password-reset', function()
+{
+    $token = request()->query('token');
+    $email = request()->query('email');
+    return inertia('PasswordReset', [
+        'token' => $token,
+        'email' => $email,
+    ]);
+})
+->name('password.reset');
