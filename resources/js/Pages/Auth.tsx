@@ -1,6 +1,8 @@
 import { useForm } from "@inertiajs/react";
+import useTranslation from "@/hooks/useTranslation";
 
 function LoginForm() {
+    const { __ } = useTranslation();
     const { data, setData, post, errors } = useForm({
         email: '',
         password: '',
@@ -16,25 +18,26 @@ function LoginForm() {
     }
 
     return <form onSubmit={handleSubmit}>
-        Email: <input
+        {__('email')}: <input
             type="email"
             name="email"
             value={data.email}
             onChange={handleChange}
         /><br />
         {errors.email && <div>{errors.email}</div>}
-        Password: <input
+        {__('password')}: <input
             type="password"
             name="password"
             value={data.password}
             onChange={handleChange}
         /><br />
         {errors.password && <div>{errors.password}</div>}
-        <button type="submit">&raquo; Login</button>
+        <button type="submit">&raquo; {__('loginButton')}</button>
     </form>
 }
 
 function RegisterForm() {
+    const { __ } = useTranslation();
     const { data, setData, post, errors } = useForm({
         name: '',
         email: '',
@@ -52,38 +55,39 @@ function RegisterForm() {
     }
 
     return <form onSubmit={handleSubmit}>
-        Name: <input
+        {__('name')}: <input
             type="text"
             name="name"
             value={data.name}
             onChange={handleChange}
         /><br />
         {errors.name && <div>{errors.name}</div>}
-        Email: <input
+        {__('email')}: <input
             type="email"
             name="email"
             value={data.email}
             onChange={handleChange}
         /><br />
         {errors.email && <div>{errors.email}</div>}
-        Password: <input
+        {__('password')}: <input
             type="password"
             name="password"
             value={data.password}
             onChange={handleChange}
         /><br />
         {errors.password && <div>{errors.password}</div>}
-        Password(confirmation): <input
+        {__('passwordConfirmation')}: <input
             type="password"
             name="password_confirmation"
             value={data.password_confirmation}
             onChange={handleChange}
         /><br />
-        <button type="submit">&raquo; Register</button>
+        <button type="submit">&raquo; {__('registerButton')}</button>
     </form>
 }
 
 function PasswordResetForm() {
+    const { __ } = useTranslation();
     const { post, data, setData, errors } = useForm({ email: '', });
 
     function handleSubmit(event) {
@@ -96,7 +100,7 @@ function PasswordResetForm() {
     }
 
     return <form onSubmit={handleSubmit}>
-        Email: <input
+        {__('email')}: <input
             type="email"
             name="email"
             value={data.email}
@@ -104,26 +108,28 @@ function PasswordResetForm() {
         />
         {errors.email && <p>{errors.email}</p> }
         <div>
-            <button type="submit">&raquo; Submit</button>
+            <button type="submit">&raquo; {__('submitButton')}</button>
         </div>
     </form>
 }
 
 export default (props) => {
+    const { __ } = useTranslation();
     return <div>
         <div>{props.status && <p>{props.status}</p>}</div>
         <section>
-            <h2>Login form</h2>
+            <h2>{__('login')}</h2>
             <LoginForm />
         </section>
         <hr />
         <section>
-            <h2>Forgot your password?</h2>
+            <h2>{__('Auth.forgotPassword')}</h2>
+            <p>{__('Auth.forgotPasswordHelp')}</p>
             <PasswordResetForm />
         </section>
         <hr />
         <section>
-            <h2>Register form</h2>
+            <h2>{__('register')}</h2>
             <RegisterForm />
         </section>
     </div>;

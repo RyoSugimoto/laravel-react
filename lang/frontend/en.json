@@ -1,0 +1,35 @@
+{
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirmation": "Password(confirmation)",
+    "newPassword": "New password",
+    "newPasswordConfirmation": "New password(confirmation)",
+    "login": "Log in",
+    "register": "Register",
+    "logout": "Log out",
+    "passwordReset": "Password reset",
+    "submit": "Submit",
+    "loginButton": "Log in",
+    "logoutButton": "Log out",
+    "registerButton": "Register",
+    "submitButton": "Submit",
+    "resetButton": "Reset",
+    "Auth": {
+        "forgotPassword": "Forgot your password?",
+        "forgotPasswordHelp": "If you have forgotten your password, please enter your email address in the form below and submit.",
+        "registerLink": "If you don't have an account",
+        "loginLink": "Already have an account?",
+        "heading": "Log in",
+        "description": "Log in."
+    },
+    "Dashboard": {
+        "heading": "Dashboard",
+        "description": "Your account information."
+    },
+    "PasswordReset": {
+        "heading": "Password reset",
+        "description": "Set a new password.",
+        "newPasswordHelp": "Please enter your new password."
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "お名前",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "passwordConfirmation": "パスワード（確認）",
+    "newPassword": "新しいパスワード",
+    "newPasswordConfirmation": "新しいパスワード（確認）",
+    "login": "ログイン",
+    "register": "新規登録",
+    "logout": "ログアウト",
+    "passwordReset": "パスワードリセット",
+    "submit": "送信",
+    "loginButton": "ログインする",
+    "logoutButton": "ログアウトする",
+    "registerButton": "登録する",
+    "submitButton": "送信する",
+    "resetButton": "リセットする",
+    "Auth": {
+        "forgotPassword": "パスワードを忘れた方はこちら",
+        "forgotPasswordHelp": "パスワードを忘れた方は次のフォームにメールアドレスを入力し送信してください。",
+        "registerLink": "アカウントをお持ちでない方はこちら",
+        "loginLink": "すでにアカウントをお持ちの方はこちら",
+        "heading": "ログインページ",
+        "description": "ログインページです。"
+    },
+    "Dashboard": {
+        "heading": "ダッシュボード",
+        "description": "アカウントに関する情報です。"
+    },
+    "PasswordReset": {
+        "heading": "パスワードリセット",
+        "description": "新しいパスワードを設定します。",
+        "newPasswordHelp": "新しいパスワードを入力してください。"
+    }
+}
