@@ -7,40 +7,41 @@ interface TranslationProp {
     data: TranslationData;
     locale: string;
 }
+/** `App\Http\Middleware\HandleInertiaRequests::share` で設定した返却値 */
 interface TranslationPageProps extends PageProps {
     translation: TranslationProp;
 }
 type TranslationParams = Record<string, string | number>;
 
 export default () => {
-    const { translation } = usePage<TranslationPageProps>().props;
-    const translationData = translation.data as TranslationData;
-    const locale = translation.locale ?? '' as string;
+    const { translation: { data: translationData, locale } } = usePage<TranslationPageProps>().props;
 
     /**
-     * サーバから取得した翻訳テキストを返す（ロケールの判別はサーバで行なう）。
-     * @param {string} key 名前空間が `.` で区切られた翻訳キー
+     * サーバから取得した翻訳テキストを返す（ロケールの判別はサーバで行なう）。キーが見つからない場合は空文字を返す。
+     * @param {string} key 区切り文字（デフォルトは `.` ）で名前空間を区切った翻訳キー
      * @param {TranslationParams} params 対象の翻訳テキストの `:<キー>` で始まる部分を置き換えるキーと値
-     * @param {string} fallback? 翻訳キーが見つからなかった場合に使用するテキスト
+     * @param {string} delimiter 第一引数 `key` で使用する区切り文字（デフォルトは `.`）
      * @returns {string}
      */
-    function get(key: string, params: TranslationParams = {}, fallback?: string): string {
-        const splittedKey = key.split('.');
-        let namespace: TranslationData | Namespace<Namespace> | Namespace<string> | string = translationData;
-        let text = fallback;
+    function get(key: string, params: TranslationParams = {}, delimiter: string = '.'): string {
+        const splittedKey = !delimiter ? [key] : key.split(delimiter);
+        let currentValue: TranslationData | Namespace<Namespace> | Namespace<string> | string = translationData;
+        let text = '';
         for (let i = 0; i <= splittedKey.length; i++) {
-            if (typeof namespace === 'string') {
-                text = namespace;
-            } else if (Object.keys(namespace).includes(splittedKey[i])) {
-                namespace = namespace[splittedKey[i]];
+            if (typeof currentValue === 'string') {
+                text = currentValue;
+            } else if (Object.keys(currentValue).includes(splittedKey[i])) {
+                currentValue = currentValue[splittedKey[i]];
             }
         }
+        // 翻訳テキストが取得できなかった場合
         if (!text) {
             console.error(`翻訳エラー: ロケール「${locale}」キー「${key}」の翻訳テキストが未定義です。フロントエンド用の翻訳ファイルをチェックしてください。`);
             text = key;
         }
+        // プレースホルダにパラメータを代入
         for (const param in params) {
-            text = text.replace(`:${param}`, String(params[param]));
+            text = text.replace(new RegExp(`:${param}`, 'g'), String(params[param]));
         }
         return text;
     }
