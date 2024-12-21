@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\support\Facades\Auth;
+use Illuminate\Http\Request;
+
+Route::post('/change-language', function (Request $request)
+{
+    $language = $request->get('language');
+    session(['language' => $language]);
+});
 
 Route::get('/', function ()
 {

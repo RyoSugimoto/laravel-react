@@ -1,5 +1,6 @@
 import { useForm } from "@inertiajs/react";
 import useTranslation from "@/hooks/useTranslation";
+import LanguageSwitch from "@/components/LanguageSwitch";
 
 function LoginForm() {
     const { __ } = useTranslation();
@@ -116,6 +117,9 @@ function PasswordResetForm() {
 export default (props) => {
     const { __ } = useTranslation();
     return <div>
+        <div>
+            <LanguageSwitch />
+        </div>
         <div>{props.status && <p>{props.status}</p>}</div>
         <section>
             <h2>{__('login')}</h2>
