@@ -16,10 +16,10 @@
     "submitButton": "送信する",
     "resetButton": "リセットする",
     "notSet": "未設定",
-    "language": "言語",
+    "language": "言語（Language）",
     "languageLabel": {
         "ja": "日本語",
-        "en": "英語"
+        "en": "English(英語)"
     },
     "Auth": {
         "forgotPassword": "パスワードを忘れた方はこちら",
