@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
+use App\Models\User;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,6 +37,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = Auth::user();
+        $user_language = $user?->language;
+
         /**
          * @var string[] アプリケーションで対応するロケール
          * * `\Illuminate\Http\Request::getPreferredLanguage` に渡す値
@@ -43,7 +48,7 @@ class HandleInertiaRequests extends Middleware
          */
         $locales = ['ja', 'en'];
         /** @var string 翻訳ロケール */
-        $locale = $request->getPreferredLanguage($locales);
+        $locale = $user_language ?? $request->getPreferredLanguage($locales);
 
         try {
             /**

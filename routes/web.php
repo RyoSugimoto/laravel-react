@@ -22,9 +22,11 @@ Route::get('/', function ()
 Route::get('/home', function ()
 {
     $user = Auth::user();
+
     return inertia('Dashboard', [
         'name' => $user?->name,
         'email' => $user?->email,
+        'language' => $user?->language ?? '',
     ]);
 })
 ->middleware('auth');
