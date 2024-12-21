@@ -15,6 +15,12 @@
     "registerButton": "Register",
     "submitButton": "Submit",
     "resetButton": "Reset",
+    "notSet": "Not set",
+    "language": "Language",
+    "languageLabel": {
+        "ja": "Japanese",
+        "en": "English"
+    },
     "Auth": {
         "forgotPassword": "Forgot your password?",
         "forgotPasswordHelp": "If you have forgotten your password, please enter your email address in the form below and submit.",

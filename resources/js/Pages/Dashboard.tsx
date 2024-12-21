@@ -18,6 +18,11 @@ export default (props) => {
         <h1>{__('Dashboard.heading')}</h1>
         <div>{__('name')}: {props.name}</div>
         <div>{__('email')}: {props.email}</div>
+        <div>{__('language')}: {
+            props.language
+            ?__(`languageLabel.${props.language}`)
+            : __('notSet')
+        }</div>
         <div><LogoutButton /></div>
     </div>
 };
