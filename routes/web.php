@@ -5,8 +5,17 @@ use Inertia\Inertia;
 use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\LanguageController;
+use App\Models\User;
 use App\Models\Post;
 use Illuminate\Support\Carbon;
+
+Route::put('/posts', function (Request $request)
+{
+    $post = new Post();
+    $post->user_id = User::where('name', $request->name)->first()->id;
+    $post->body = $request->body;
+    $post->save();
+});
 
 Route::delete('/posts/{id}', function (string $id)
 {
@@ -51,7 +60,11 @@ Route::get('/home', function ()
 
     // $posts = $user->posts()->get();
 
-    $posts = Post::where('user_id', $user->id)->with('user:id,name')->get()->toArray();
+    $posts = Post::where('user_id', $user->id)
+    ->with('user:id,name')
+    ->orderBy('created_at', 'desc')
+    ->get()
+    ->toArray();
 
     $posts_to_return = array_map(function ($post)
     {

@@ -16,6 +16,10 @@ function LogoutButton() {
 export default (props) => {
     const { __ } = useTranslation();
     const { posts } = props;
+    const { data, put, setData, reset } = useForm({
+        name: props.name,
+        body: '',
+    });
 
     function handleDeletePost(id: string) {
         if (confirm(__('postDeleteConfirm'))) {
@@ -23,6 +27,19 @@ export default (props) => {
                 preserveScroll: true,
             });
         }
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        put('/posts', {
+            onSuccess: () => {
+                reset('body');
+            }
+        });
+    }
+
+    function handleChange(e) {
+        setData('body', e.target.value);
     }
 
     return <Layout>
@@ -36,10 +53,22 @@ export default (props) => {
             : __('notSet')
         }</div>
         <section>
+            <form method="POST" onSubmit={handleSubmit}>
+                <textarea
+                    name="body"
+                    id=""
+                    value={data.body}
+                    onChange={handleChange}
+                ></textarea>
+                <div>
+                    <button type="submit">投稿する</button>
+                </div>
+            </form>
+        </section>
+        <section>
             <h2>{__('posts')}</h2>
             {posts.length !== 0 && <div>
                 {posts.map(post => {
-                    console.log(post)
                     return <article className="border-t">
                         <header>{__('postCreatedAt')}: {post.createdAt}</header>
                         <div>{post.body}</div>
