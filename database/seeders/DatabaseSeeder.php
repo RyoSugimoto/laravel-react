@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Post;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -34,5 +35,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('hogehoge'),
             'language' => null,
         ]);
+
+        $users = User::all();
+
+        foreach ($users as $user) {
+            Post::factory(5)->create([
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

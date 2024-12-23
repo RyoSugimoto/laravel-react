@@ -5,6 +5,8 @@ use Inertia\Inertia;
 use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\LanguageController;
+use App\Models\Post;
+use Illuminate\Support\Carbon;
 
 Route::controller(LanguageController::class)
 ->name('language.')
@@ -33,10 +35,26 @@ Route::get('/home', function ()
 {
     $user = Auth::user();
 
+    // $posts = $user->posts()->get();
+
+    $posts = Post::where('user_id', $user->id)->with('user:id,name')->get()->toArray();
+
+    $posts_to_return = array_map(function ($post)
+    {
+        $created_at_with_locale = Carbon::parse($post['created_at'])->locale(App::getLocale());
+        $created_at_formatted = $created_at_with_locale->isoFormat('LLL');
+        return [
+            'user' => $post['user']['name'],
+            'body' => $post['body'],
+            'created_at' => $created_at_formatted
+        ];
+    }, $posts);
+
     return inertia('Dashboard', [
         'name' => $user?->name,
         'email' => $user?->email,
         'language' => $user?->language ?? '',
+        'posts' => $posts_to_return,
     ]);
 })
 ->name('home')

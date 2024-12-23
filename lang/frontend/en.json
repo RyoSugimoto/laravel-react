@@ -21,6 +21,9 @@
         "ja": "日本語（Japanese）",
         "en": "English"
     },
+    "posts": "Posts",
+    "noPostsMessage": "There are no posts.",
+    "postCreatedAt": "Posted",
     "Auth": {
         "forgotPassword": "Forgot your password?",
         "forgotPasswordHelp": "If you have forgotten your password, please enter your email address in the form below and submit.",

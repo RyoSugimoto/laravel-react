@@ -21,6 +21,9 @@
         "ja": "日本語",
         "en": "English(英語)"
     },
+    "posts": "投稿",
+    "noPostsMessage": "投稿がありません。",
+    "postCreatedAt": "投稿日時",
     "Auth": {
         "forgotPassword": "パスワードを忘れた方はこちら",
         "forgotPasswordHelp": "パスワードを忘れた方は次のフォームにメールアドレスを入力し送信してください。",

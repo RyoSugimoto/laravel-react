@@ -15,6 +15,7 @@ function LogoutButton() {
 
 export default (props) => {
     const { __ } = useTranslation();
+    const { posts } = props;
     return <Layout>
         <h1>{__('Dashboard.heading')}</h1>
         <div>{__('name')}: {props.name}</div>
@@ -24,6 +25,18 @@ export default (props) => {
             ?__(`languageLabel.${props.language}`)
             : __('notSet')
         }</div>
+        <section>
+            <h2>{__('posts')}</h2>
+            {posts.length !== 0 && <div>
+                {posts.map(post => {
+                    return <article className="border-t">
+                        <header></header>
+                        <div>{post.body}</div>
+                        <footer>{__('postCreatedAt')}: {post.created_at}</footer>
+                    </article>
+                })}
+            </div> || <p>{__('noPostsMessage')}</p>}
+        </section>
         <div><LogoutButton /></div>
     </Layout>
 };
