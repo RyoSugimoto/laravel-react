@@ -8,6 +8,21 @@ use App\Http\Controllers\LanguageController;
 use App\Models\Post;
 use Illuminate\Support\Carbon;
 
+Route::delete('/posts/{id}', function ($id)
+{
+    $post = Post::find($id);
+
+    if ($post) {
+        $post->delete();
+        $post->save();
+        session()->flash('status', __('status.post_deleted'));
+    } else {
+        session()->flash('status', __('status.post_deleted_error'));
+    }
+
+    return Inertia::location(url()->previous());
+});
+
 Route::controller(LanguageController::class)
 ->name('language.')
 ->group(function ()
@@ -44,9 +59,10 @@ Route::get('/home', function ()
         $created_at_with_locale = Carbon::parse($post['created_at'])->locale(App::getLocale());
         $created_at_formatted = $created_at_with_locale->isoFormat('LLL');
         return [
+            'id' => $post['id'],
             'user' => $post['user']['name'],
             'body' => $post['body'],
-            'created_at' => $created_at_formatted
+            'createdAt' => $created_at_formatted,
         ];
     }, $posts);
 
@@ -55,6 +71,7 @@ Route::get('/home', function ()
         'email' => $user?->email,
         'language' => $user?->language ?? '',
         'posts' => $posts_to_return,
+        'status' => session('status', ''),
     ]);
 })
 ->name('home')

@@ -24,6 +24,8 @@
     "posts": "投稿",
     "noPostsMessage": "投稿がありません。",
     "postCreatedAt": "投稿日時",
+    "postDeleteButtonLabel": "削除する",
+    "postDeleteConfirm": "本当にこの投稿を削除してよろしいですか？",
     "Auth": {
         "forgotPassword": "パスワードを忘れた方はこちら",
         "forgotPasswordHelp": "パスワードを忘れた方は次のフォームにメールアドレスを入力し送信してください。",
