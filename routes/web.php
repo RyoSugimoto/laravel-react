@@ -8,13 +8,12 @@ use App\Http\Controllers\LanguageController;
 use App\Models\Post;
 use Illuminate\Support\Carbon;
 
-Route::delete('/posts/{id}', function ($id)
+Route::delete('/posts/{id}', function (string $id)
 {
     $post = Post::find($id);
 
     if ($post) {
         $post->delete();
-        $post->save();
         session()->flash('status', __('status.post_deleted'));
     } else {
         session()->flash('status', __('status.post_deleted_error'));
