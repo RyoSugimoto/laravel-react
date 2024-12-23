@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
-use App\Models\User;
+use App\Services\LanguageService as Lang;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -37,30 +37,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = Auth::user();
-        /**
-         * @var string[] アプリケーションで対応するロケール
-         * * `\Illuminate\Http\Request::getPreferredLanguage` に渡す値
-         * * 適切なロケールがない場合は最初の要素が選ばれる。
-         * * つまり、必ずこの配列内のいずれかのロケールが採用される。
-         */
-        $locales = ['ja', 'en'];
-        /**
-         * @var string 翻訳ロケール
-         * 優先順位
-         * 1. ログインしている場合はユーザの `language` カラム値
-         * 2. セッションに `language` キーがある場合はその値
-         * 3. HTTPヘッダの送信する `Accept-Language`
-         * 4. アプリケーション設定の `locale`
-         */
-        $locale = config('app.locale');
-        if (Auth::check() && $user->language && in_array($user->language, $locales)) {
-            $locale = $user->language;
-        } else if ($request->session()->exists('language') && in_array(session('language'), $locales)) {
-            $locale = session('language');
-        } else if ($request->getPreferredLanguage($locales)) {
-            $locale = $request->getPreferredLanguage($locales);
-        }
+        $locale = App::getLocale();
 
         try {
             /**

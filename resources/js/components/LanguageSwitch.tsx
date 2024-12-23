@@ -9,7 +9,7 @@ export default () => {
     ];
     function handleChange(event) {
         const value = event.target.value;
-        router.post('change-language', {
+        router.post('switch-language', {
             language: value,
         });
     }

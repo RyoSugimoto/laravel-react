@@ -4,11 +4,14 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Controllers\LanguageController;
 
-Route::post('/change-language', function (Request $request)
+Route::controller(LanguageController::class)
+->name('language.')
+->group(function ()
 {
-    $language = $request->get('language');
-    session(['language' => $language]);
+    Route::post('/switch-language', 'switch')
+    ->name('switch');
 });
 
 Route::get('/', function ()
@@ -36,6 +39,7 @@ Route::get('/home', function ()
         'language' => $user?->language ?? '',
     ]);
 })
+->name('home')
 ->middleware('auth');
 
 /**
