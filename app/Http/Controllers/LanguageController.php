@@ -11,7 +11,7 @@ use Inertia\Inertia;
 
 class LanguageController extends Controller
 {
-    public function switch(Request $request)
+    public function store(Request $request)
     {
         $locale = $request->get('language');
 

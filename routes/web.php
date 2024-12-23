@@ -10,7 +10,7 @@ Route::controller(LanguageController::class)
 ->name('language.')
 ->group(function ()
 {
-    Route::post('/switch-language', 'switch')
+    Route::post('/switch-language', 'store')
     ->name('switch');
 });
 
