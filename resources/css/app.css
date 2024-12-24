@@ -3,7 +3,5 @@
 @tailwind utilities;
 
 :root {
-    color-scheme: dark;
-    font-size: 150%;
-    line-height: 1.75;
+    color-scheme: light dark;
 }
