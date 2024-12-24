@@ -1,10 +1,14 @@
 import type { PropsWithChildren } from "react";
+import { ThemeProvider } from '@/components/theme-provider';
 import LanguageSwitch from "@/components/LanguageSwitch";
 
 type LayoutProps = PropsWithChildren<{}>;
 
 export default ({ children }: LayoutProps) => {
-    return <div>
+    return <ThemeProvider
+        defaultTheme="dark"
+        storageKey="ui-theme"
+    >
         <header>
             <LanguageSwitch />
         </header>
@@ -14,5 +18,5 @@ export default ({ children }: LayoutProps) => {
         <footer>
 
         </footer>
-    </div>;
+    </ThemeProvider>;
 }
