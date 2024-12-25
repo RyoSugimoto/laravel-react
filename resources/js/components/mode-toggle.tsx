@@ -1,37 +1,58 @@
-import { Moon, Sun } from "lucide-react"
+import { v4 } from 'uuid';
+import useTranslation from "@/hooks/useTranslation";
+import { Moon, Sun, Settings } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { useTheme } from "@/components/theme-provider";
+
+import { Label } from '@/components/ui/label';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/components/theme-provider"
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select';
 
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+    const { setTheme, theme } = useTheme();
+    const { __ } = useTranslation();
+    const uuid = v4();
+    const themes = [
+        'light',
+        'dark',
+        'system',
+    ] as const;
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    function handleChange(value: (typeof themes)[number]) {
+        setTheme(value);
+    }
+
+    return <div>
+        <Label htmlFor={`${uuid}-language`}>{__('colorScheme')}</Label>
+        <Select
+            onValueChange={handleChange}
+        >
+            <SelectTrigger
+                id={`${uuid}-language`}
+                className="max-w-64"
+            >
+                <SelectValue placeholder={__(`colorSchemeTheme.${theme}`)} />
+            </SelectTrigger>
+            <SelectContent>
+                {themes.map((theme, index) => {
+                    return <SelectItem
+                        key={index}
+                        value={theme}
+                    >
+                        <span className="flex gap-2 items-center">
+                            {theme === 'light' && <Sun className="w-4" />}
+                            {theme === 'dark' && <Moon className="w-4" />}
+                            {theme === 'system' && <Settings className="w-4" />}
+                            {__(`colorSchemeTheme.${theme}`)}
+                        </span>
+                    </SelectItem>
+                })}
+            </SelectContent>
+        </Select>
+    </div>
 }

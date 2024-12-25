@@ -1,5 +1,14 @@
-import { useForm, router } from '@inertiajs/react';
+import { v4 } from 'uuid';
+import { router } from '@inertiajs/react';
 import useTranslation from "@/hooks/useTranslation";
+import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select';
 
 export default () => {
     const { __, locale } = useTranslation();
@@ -7,22 +16,35 @@ export default () => {
         { value: 'ja' },
         { value: 'en' },
     ];
-    function handleChange(event) {
-        const value = event.target.value;
+    const uuid = v4();
+
+    function handleChange(value: string) {
         router.post('switch-language', {
             language: value,
         });
     }
+
     return <div>
-        {__('language')}: <select
+        <Label
+            htmlFor={`${uuid}-language`}
+        >{__('language')}</Label>
+        <Select
             name="language"
-            id=""
-            onChange={handleChange}
+            onValueChange={handleChange}
             defaultValue={locale}
         >
-            {languageOptions.map(option => <option
-                value={option.value}
-            >{__(`languageLabel.${option.value}`)}</option>)}
-        </select>
+            <SelectTrigger
+                id={`${uuid}-language`}
+                className="max-w-64"
+            >
+                <SelectValue placeholder={__('language')} />
+            </SelectTrigger>
+            <SelectContent>
+                {languageOptions.map((option, index) => <SelectItem
+                    key={index}
+                    value={option.value}
+                >{__(`languageLabel.${option.value}`)}</SelectItem>)}
+            </SelectContent>
+        </Select>
     </div>
 };

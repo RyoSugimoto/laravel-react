@@ -1,86 +1,58 @@
-import { useForm, router } from "@inertiajs/react";
 import useTranslation from "@/hooks/useTranslation";
+import useStatus from '@/hooks/useStatus';
 import Layout from '@/layouts/default';
+import Container from "@/components/layout/Container";
+import { LogoutButton } from "@/components/auth";
+import PostCreationForm from "@/components/post/PostCreationForm";
+import PostItem from "@/components/post/PostItem";
+import PostList from '@/components/post/PostList';
+import PageHeading from "@/components/PageHeading";
+import SectionHeading from "@/components/SectionHeading";
+import type { Post } from '@/@types';
 
-function LogoutButton() {
+type DashboardProps = {
+    status: string;
+    name: string;
+    email: string;
+    language: string;
+    posts: Post[];
+};
+
+export default ({ status, name, email, posts }: DashboardProps) => {
     const { __ } = useTranslation();
-    const { post } = useForm({});
-    return <form onSubmit={event => {
-            event.preventDefault();
-            post('logout');
-        }}>
-        <button type="submit">&laquo; {__('logoutButton')}</button>
-    </form>;
-}
-
-export default (props) => {
-    const { __ } = useTranslation();
-    const { posts } = props;
-    const { data, put, setData, reset } = useForm({
-        name: props.name,
-        body: '',
-    });
-
-    function handleDeletePost(id: string) {
-        if (confirm(__('postDeleteConfirm'))) {
-            router.delete(`/posts/${id}`, {
-                preserveScroll: true,
-            });
-        }
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        put('/posts', {
-            onSuccess: () => {
-                reset('body');
-            }
-        });
-    }
-
-    function handleChange(e) {
-        setData('body', e.target.value);
-    }
+    useStatus(status);
 
     return <Layout>
-        <div>{props.status}</div>
-        <h1>{__('Dashboard.heading')}</h1>
-        <div>{__('name')}: {props.name}</div>
-        <div>{__('email')}: {props.email}</div>
-        <div>{__('language')}: {
-            props.language
-            ?__(`languageLabel.${props.language}`)
-            : __('notSet')
-        }</div>
-        <section>
-            <form method="POST" onSubmit={handleSubmit}>
-                <textarea
-                    name="body"
-                    id=""
-                    value={data.body}
-                    onChange={handleChange}
-                ></textarea>
-                <div>
-                    <button type="submit">投稿する</button>
-                </div>
-            </form>
-        </section>
-        <section>
-            <h2>{__('posts')}</h2>
-            {posts.length !== 0 && <div>
-                {posts.map(post => {
-                    return <article className="border-t">
-                        <header>{__('postCreatedAt')}: {post.createdAt}</header>
-                        <div>{post.body}</div>
-                        <footer>
-                            <button
-                                onClick={ () => { handleDeletePost(post.id) }}
-                            >{__('postDeleteButtonLabel')}</button>
-                        </footer>
-                    </article>
-                })}
-            </div> || <p>{__('noPostsMessage')}</p>}
-        </section>
-        <div><LogoutButton /></div>
+        <div className="my-8">
+            <Container>
+                <PageHeading>{__('Dashboard.heading')}</PageHeading>
+            </Container>
+            <Container>
+                <div>{__('name')}: {name}</div>
+                <div>{__('email')}: {email}</div>
+                <div><LogoutButton /></div>
+            </Container>
+        </div>
+
+        <div className="grid gap-8">
+            <section>
+                <Container>
+                    <PostCreationForm userName={name} />
+                </Container>
+            </section>
+
+            <section>
+                <Container>
+                    <div className="grid gap-4">
+                        <SectionHeading>{__('Dashboard.yourPosts')}</SectionHeading>
+                        {posts.length !== 0 && <PostList>
+                            {posts.map(post => {
+                                return <PostItem post={post} />
+                            })}
+                        </PostList> || <p>{__('noPostsMessage')}</p>}
+                    </div>
+                </Container>
+            </section>
+        </div>
     </Layout>
 };

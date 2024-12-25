@@ -16,6 +16,13 @@
     "submitButton": "送信する",
     "resetButton": "リセットする",
     "notSet": "未設定",
+    "displayOptions": "表示設定",
+    "colorScheme": "配色",
+    "colorSchemeTheme": {
+        "light": "明るい",
+        "dark": "暗い",
+        "system": "システムに合わせる"
+    },
     "language": "言語（Language）",
     "languageLabel": {
         "ja": "日本語",
@@ -26,17 +33,34 @@
     "postCreatedAt": "投稿日時",
     "postDeleteButtonLabel": "削除する",
     "postDeleteConfirm": "本当にこの投稿を削除してよろしいですか？",
+    "auth": {
+        "LoginForm": {
+            "title": "ログインフォーム",
+            "description": "アカウントをお持ちの方は、次のフォームに登録情報を入力しログインしてください。"
+        },
+        "RegisterForm": {
+            "title": "登録フォーム",
+            "description": "アカウントをお持ちでない方は、次のフォームに必要事項を入力しアカウントを登録してください。"
+        },
+        "PasswordResetForm": {
+            "title": "パスワード再発行フォーム",
+            "description": "お持ちのアカウントのパスワードを忘れた方は、次のフォームに、アカウントのメールアドレスを入力し送信してください。"
+        }
+    },
+    "post": {
+        "PostCreationForm": {
+            "title": "新しい投稿",
+            "label": "新しい投稿",
+            "placeholder": "投稿内容（最大 :max 文字）",
+            "submit": "投稿する"
+        }
+    },
     "Auth": {
-        "forgotPassword": "パスワードを忘れた方はこちら",
-        "forgotPasswordHelp": "パスワードを忘れた方は次のフォームにメールアドレスを入力し送信してください。",
-        "registerLink": "アカウントをお持ちでない方はこちら",
-        "loginLink": "すでにアカウントをお持ちの方はこちら",
-        "heading": "ログインページ",
-        "description": "ログインページです。"
     },
     "Dashboard": {
         "heading": "ダッシュボード",
-        "description": "アカウントに関する情報です。"
+        "description": "アカウントに関する情報です。",
+        "yourPosts": "あなたの投稿"
     },
     "PasswordReset": {
         "heading": "パスワードリセット",
