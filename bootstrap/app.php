@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleLocaleSetting::class,
             HandleInertiaRequests::class,
         ]);
+        $middleware->encryptCookies([
+            // NOTE: App\Services\DateService` で、クライアントサイドでセットした `'timezone'` クッキーからタイムゾーンを取得するため、対象のキーの暗号化を除外。
+            'timezone',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

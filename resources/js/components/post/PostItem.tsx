@@ -1,4 +1,4 @@
-import { router } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 import useTranslation from "@/hooks/useTranslation";
 import type { Post } from '@/@types';
 import { Button } from "@/components/ui/button";
@@ -48,8 +48,11 @@ export default ({ post }: PostItemProps) => {
                 <div>{post.body}</div>
             </CardContent>
             <CardFooter
-                className="flex justify-end"
+                className="flex justify-between"
             >
+                <Link
+                    href={`/posts/${post.id}`}
+                >{__('readMore')}</Link>
                 <Button
                     type="button"
                     variant="outline"

@@ -25,12 +25,12 @@ export default ({ userName }: PostCreationFormProps) => {
         name: userName,
         body: '',
     };
-    const { data, put, setData, reset } = useForm(fieldNames);
+    const { data, post, setData, reset } = useForm(fieldNames);
     const uuid = v4();
 
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        put('/posts', {
+        post('/posts', {
             onSuccess: () => {
                 reset('body');
             }

@@ -8,10 +8,10 @@ import PostItem from "@/components/post/PostItem";
 import PostList from '@/components/post/PostList';
 import PageHeading from "@/components/PageHeading";
 import SectionHeading from "@/components/SectionHeading";
-import type { Post } from '@/@types';
+import type { Post, Status } from '@/@types';
 
 type DashboardProps = {
-    status: string;
+    status: Status;
     name: string;
     email: string;
     language: string;
@@ -20,16 +20,18 @@ type DashboardProps = {
 
 export default ({ status, name, email, posts }: DashboardProps) => {
     const { __ } = useTranslation();
+
     useStatus(status);
 
     return <Layout>
         <div className="my-8">
             <Container>
-                <PageHeading>{__('Dashboard.heading')}</PageHeading>
-            </Container>
-            <Container>
-                <div>{__('name')}: {name}</div>
-                <div>{__('email')}: {email}</div>
+                <PageHeading>
+                    <span
+                        aria-label={__('name')}
+                    >{name}</span>
+                </PageHeading>
+                <div aria-label={__('email')}>{email}</div>
                 <div><LogoutButton /></div>
             </Container>
         </div>
@@ -46,8 +48,11 @@ export default ({ status, name, email, posts }: DashboardProps) => {
                     <div className="grid gap-4">
                         <SectionHeading>{__('Dashboard.yourPosts')}</SectionHeading>
                         {posts.length !== 0 && <PostList>
-                            {posts.map(post => {
-                                return <PostItem post={post} />
+                            {posts.map((post, index) => {
+                                return <PostItem
+                                    key={index}
+                                    post={post}
+                                />
                             })}
                         </PostList> || <p>{__('noPostsMessage')}</p>}
                     </div>
