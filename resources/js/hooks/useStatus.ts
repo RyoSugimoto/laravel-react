@@ -1,9 +1,17 @@
-import { useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import type { Status } from "@/@types";
+import type { SharedProps } from '@/@types';
+import { useEffect } from 'react';
+import { usePage } from '@inertiajs/react';
+import { useToast } from '@/hooks/use-toast';
 
-export default (status: Status) => {
+export default () => {
+    const { status } = usePage<SharedProps>().props;
+
+    if (!status) {
+        return;
+    }
+
     const { toast } = useToast();
+
     useEffect(() => {
         if (status.message && !status.read) {
             toast({

@@ -15,7 +15,6 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import Container from '@/components/layout/Container';
-import PageHeading from '@/components/PageHeading';
 
 type PasswordResetProps = {
     token: string;
@@ -24,13 +23,16 @@ type PasswordResetProps = {
 
 export default ({ token, email }: PasswordResetProps) => {
     const { __ } = useTranslation();
+
     const fieldNames = {
         token,
         email,
         password: '',
         password_confirmation: '',
     };
+
     const { post, data, setData, errors } = useForm(fieldNames);
+
     const uuid = v4();
 
     function handleSubmit(event: React.FormEvent) {
@@ -45,23 +47,26 @@ export default ({ token, email }: PasswordResetProps) => {
     }
 
     return <LayoutNoFrame>
-        <Container>
+        <Container maxWidth="sm">
             <div className="my-8">
-                <PageHeading>{__('PasswordReset.heading')}</PageHeading>
-                <p>{__('PasswordReset.newPasswordHelp')}</p>
-            </div>
-            <div className="my-8">
-                <form onSubmit={handleSubmit}>
+                <form
+                    autoComplete="off"
+                    onSubmit={handleSubmit}
+                >
                     <input name="token" type="hidden" value={data.token} readOnly />
                     <input name="email" type="hidden" value={data.email} readOnly />
                     <Card>
                         <CardHeader>
-                            <CardTitle>{__('PasswordReset.heading')}</CardTitle>
+                            <CardTitle>
+                                <h1>{__('Pages.PasswordReset.heading')}</h1>
+                            </CardTitle>
+                            <CardDescription>{__('Pages.PasswordReset.newPasswordHelp')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div>
                                 <Label htmlFor={`${uuid}-password`}>{__('newPassword')}</Label>
                                 <Input
+                                    autoComplete="off"
                                     type="password"
                                     name="password"
                                     value={data.password}
@@ -72,6 +77,7 @@ export default ({ token, email }: PasswordResetProps) => {
 
                                 <Label htmlFor={`${uuid}-password_confirmation`}>{__('newPasswordConfirmation')}</Label>
                                 <Input
+                                    autoComplete="off"
                                     type="password"
                                     name="password_confirmation"
                                     value={data.password_confirmation}

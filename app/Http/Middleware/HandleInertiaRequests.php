@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\StatusService as Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
-use App\Services\LanguageService as Lang;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -54,6 +54,14 @@ class HandleInertiaRequests extends Middleware
         }
 
         return array_merge(parent::share($request), [
+            /**
+             * 次のメッセージを含む `Status` オブジェクト。
+             * * 新パスワードの設定が成功した場合に返すメッセージ
+             *  @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-response
+             * * パスワード再設定のリクエストが成功した場合に返すメッセージ
+             *  @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-link-request-response
+             */
+            'status' => Status::create(),
             'translation' => [
                 'data' => $translation_data ?? [],
                 'locale' => $locale,

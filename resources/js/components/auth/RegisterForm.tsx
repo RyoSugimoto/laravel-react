@@ -38,12 +38,6 @@ export default () => {
     }
 
     return <form onSubmit={handleSubmit}>
-        <Card>
-            <CardHeader>
-                <CardTitle>{__('auth.RegisterForm.title')}</CardTitle>
-                <CardDescription>{__('auth.RegisterForm.description')}</CardDescription>
-            </CardHeader>
-            <CardContent>
             <Label htmlFor={`${uuid}-name`}>{__('name')}</Label>
                 <Input
                     type="text"
@@ -79,13 +73,9 @@ export default () => {
                     id={`${uuid}-password_confirm`}
                     onChange={handleChange}
                 />
-            </CardContent>
-            <CardFooter>
                 <Button type="submit">
                     <Check />
                     {__('registerButton')}
                 </Button>
-            </CardFooter>
-        </Card>
     </form>
 };

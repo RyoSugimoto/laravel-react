@@ -1,11 +1,11 @@
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import PasswordResetForm from './PasswordResetForm';
+import PasswordResetRequestForm from './PasswordResetRequestForm';
 import LogoutButton from './LogoutButton';
 
 export {
     LoginForm,
     RegisterForm,
-    PasswordResetForm,
+    PasswordResetRequestForm,
     LogoutButton,
 };

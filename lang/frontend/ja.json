@@ -33,19 +33,10 @@
     "postCreatedAt": "投稿日時",
     "postDeleteButtonLabel": "削除する",
     "postDeleteConfirm": "本当にこの投稿を削除してよろしいですか？",
+    "readMore": "くわしく見る",
+    "returnToPrevious": "前のページに戻る",
+    "complete": "完了",
     "auth": {
-        "LoginForm": {
-            "title": "ログインフォーム",
-            "description": "アカウントをお持ちの方は、次のフォームに登録情報を入力しログインしてください。"
-        },
-        "RegisterForm": {
-            "title": "登録フォーム",
-            "description": "アカウントをお持ちでない方は、次のフォームに必要事項を入力しアカウントを登録してください。"
-        },
-        "PasswordResetForm": {
-            "title": "パスワード再発行フォーム",
-            "description": "お持ちのアカウントのパスワードを忘れた方は、次のフォームに、アカウントのメールアドレスを入力し送信してください。"
-        }
     },
     "post": {
         "PostCreationForm": {
@@ -55,16 +46,38 @@
             "submit": "投稿する"
         }
     },
-    "Auth": {
-    },
     "Dashboard": {
         "heading": "ダッシュボード",
         "description": "アカウントに関する情報です。",
         "yourPosts": "あなたの投稿"
     },
-    "PasswordReset": {
-        "heading": "パスワードリセット",
-        "description": "新しいパスワードを設定します。",
-        "newPasswordHelp": "新しいパスワードを入力してください。"
+    "Pages": {
+        "Welcome": {
+            "copy": "ようこそ。",
+            "lead": "ログインして親しい人との近況の共有を始めましょう。",
+            "haveAccount": "アカウントをお持ちの方",
+            "openLoginForm": "ログインフォーム",
+            "or": "もしくは",
+            "haveNoAccount": "まだアカウントをお持ちでない方",
+            "openRegisterForm": "アカウント作成フォーム",
+            "forgotPassword": "パスワードを忘れた方はこちら",
+            "LoginForm": {
+                "title": "ログインフォーム",
+                "description": "アカウントをお持ちの方は、次のフォームに登録情報を入力しログインしてください。"
+            },
+            "RegisterForm": {
+                "title": "登録フォーム",
+                "description": "アカウントをお持ちでない方は、次のフォームに必要事項を入力しアカウントを登録してください。"
+            }
+        },
+        "PasswordResetRequest": {
+            "title": "パスワード再設定フォーム",
+            "description": "お持ちのアカウントのパスワードを忘れた方は、次のフォームに、アカウントのメールアドレスを入力し送信してください。"
+        },
+        "PasswordReset": {
+            "heading": "パスワードリセット",
+            "description": "新しいパスワードを設定します。",
+            "newPasswordHelp": "新しいパスワードを入力してください。"
+        }
     }
 }

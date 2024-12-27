@@ -1,20 +1,19 @@
-import type { PageProps } from "@inertiajs/core";
-import { usePage } from "@inertiajs/react";
+import { SharedProps } from '@/@types';
+import { usePage } from '@inertiajs/react';
 
 type Namespace<T = string> = Record<string, T>;
+
 type TranslationData = Record<string, (Namespace<Namespace> | Namespace<string> | string)>;
-interface TranslationProp {
+
+export interface TranslationProps {
     data: TranslationData;
     locale: string;
 }
-/** `App\Http\Middleware\HandleInertiaRequests::share` で設定した返却値 */
-interface TranslationPageProps extends PageProps {
-    translation: TranslationProp;
-}
+
 type TranslationParams = Record<string, string | number>;
 
 export default () => {
-    const { translation: { data: translationData, locale } } = usePage<TranslationPageProps>().props;
+    const { translation: { data: translationData, locale } } = usePage<SharedProps>().props;
 
     /**
      * サーバから取得した翻訳テキストを返す（ロケールの判別はサーバで行なう）。キーが見つからない場合は空文字を返す。

@@ -6,7 +6,6 @@ use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Repositories\UserRepository as Users;
-use App\Services\StatusService as Status;
 use App\DTO\PostDTO;
 
 class PostController extends Controller
@@ -34,7 +33,6 @@ class PostController extends Controller
             'email' => $user?->email,
             'language' => $user?->language ?? '',
             'posts' => $posts_data,
-            'status' => Status::create(),
         ]);
     }
 

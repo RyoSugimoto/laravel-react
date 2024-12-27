@@ -1,8 +1,8 @@
-import { router, Link } from '@inertiajs/react';
-import useTranslation from "@/hooks/useTranslation";
 import type { Post } from '@/@types';
+import { router } from '@inertiajs/react';
+import useTranslation from "@/hooks/useTranslation";
+import { ChevronRight as Right, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -48,11 +48,18 @@ export default ({ post }: PostItemProps) => {
                 <div>{post.body}</div>
             </CardContent>
             <CardFooter
-                className="flex justify-between"
+                className="flex gap-2"
             >
-                <Link
-                    href={`/posts/${post.id}`}
-                >{__('readMore')}</Link>
+                <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => {
+                        router.get(`/posts/${post.id}`);
+                    }}
+                >
+                    <Right />
+                    {__('readMore')}
+                </Button>
                 <Button
                     type="button"
                     variant="outline"
