@@ -1,6 +1,6 @@
 import type { Post } from "@/@types";
 import Layout from '@/layouts/default';
-import Container from "@/components/layout/Container";
+import Container from "@/components/base/atoms/Container";
 import { router, Link } from '@inertiajs/react';
 import useTranslation from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/button";
@@ -31,10 +31,6 @@ export default ({ post }: PostProps) => {
                     {post.body}
                 </div>
                 <footer>
-
-                <Link
-                    href={`/posts/${post.id}`}
-                >{__('readMore')}</Link>
                 <Button
                     type="button"
                     variant="outline"

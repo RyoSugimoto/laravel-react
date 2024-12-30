@@ -161,7 +161,7 @@ return [
      */
     'redirects' => [
         /** パスワードリセット完了後のリダイレクト先 */
-        'password-reset' => '/',
+        'password-reset' => '/login',
     ],
 
 ];

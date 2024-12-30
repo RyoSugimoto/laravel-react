@@ -34,50 +34,61 @@
     "postDeleteButtonLabel": "Delete",
     "postDeleteConfirm": "Are you sure you want to delete this post?",
     "readMore": "Read more",
-    "returnToPrevious": "Return to previous page",
     "complete": "Complete",
-    "auth": {
-    },
-    "post": {
-        "PostCreationForm": {
-            "title": "New post",
-            "label": "New post",
-            "placeholder": "Post content(Maximum :max characters)",
-            "submit": "Post"
+    "components": {
+        "auth": {
+            "LoginForm": {
+                "forgotPassword": "Forgot your password?",
+                "forgotPasswordHelp": "Opens in a pop-up window.",
+                "register": "Register a new account"
+            },
+            "PasswordResetRequestForm": {
+                "title": "Password reset form",
+                "description": "If you have forgotten your account password, please enter your account email address in the form below and submit."
+            },
+            "RegisterForm": {}
+        },
+        "post": {
+            "PostCreationForm": {
+                "title": "New post",
+                "label": "New post",
+                "placeholder": "Post content(Maximum :max characters)",
+                "submit": "Post"
+            }
         }
     },
-    "Dashboard": {
-        "heading": "Dashboard",
-        "description": "Your account information.",
-        "yourPosts": "Your posts"
+    "layouts": {
+        "welcome": {
+            "copy": "Welcome.",
+            "lead": "Log in and start sharing what's going on with your loved ones."
+        }
     },
     "Pages": {
         "Welcome": {
-            "copy": "Welcome.",
-            "lead": "Log in and start sharing what's going on with your loved ones.",
             "haveAccount": "If you have an account",
             "openLoginForm": "Open login form",
             "or": "or",
             "haveNoAccount": "Don't have an account yet?",
-            "openRegisterForm": "Open Register form",
-            "forgotPassword": "Forgot your password?",
-            "LoginForm": {
-                "title": "Log in form",
-                "description": "If you already have an account, please log in by entering your registration information in the form below."
-            },
-            "RegisterForm": {
-                "title": "Register form",
-                "description": "If you do not have an account, please register your account by filling out the required information in the form below."
-            }
+            "openRegisterForm": "Open Register form"
         },
-        "PasswordResetRequest": {
-            "title": "Password reset form",
-            "description": "If you have forgotten your account password, please enter your account email address in the form below and submit."
+        "Login": {
+            "title": "Log in form",
+            "description": "If you already have an account, please log in by entering your registration information in the form below."
         },
         "PasswordReset": {
             "heading": "Password reset",
             "description": "Set a new password.",
             "newPasswordHelp": "Please enter your new password."
+        },
+        "Register": {
+            "title": "Register form",
+            "description": "If you do not have an account, please register your account by filling out the required information in the form below.",
+            "login": "If you already have an account, log in here"
+        },
+        "Dashboard": {
+            "heading": "Dashboard",
+            "description": "Your account information.",
+            "yourPosts": "Your posts"
         }
     }
 }

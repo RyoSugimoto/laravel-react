@@ -8,4 +8,14 @@ class GuestController extends Controller
     {
         return inertia('Welcome');
     }
+
+    public function store()
+    {
+        return inertia('Login');
+    }
+
+    public function create()
+    {
+        return inertia('Register');
+    }
 }

@@ -14,7 +14,13 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import Container from '@/components/layout/Container';
+import Container from '@/components/base/atoms/Container';
+import {
+    Field,
+    FieldItem,
+    Message,
+    Action
+} from '@/components/form';
 
 type PasswordResetProps = {
     token: string;
@@ -31,7 +37,7 @@ export default ({ token, email }: PasswordResetProps) => {
         password_confirmation: '',
     };
 
-    const { post, data, setData, errors } = useForm(fieldNames);
+    const { post, data, setData, errors, processing } = useForm(fieldNames);
 
     const uuid = v4();
 
@@ -47,23 +53,24 @@ export default ({ token, email }: PasswordResetProps) => {
     }
 
     return <LayoutNoFrame>
-        <Container maxWidth="sm">
-            <div className="my-8">
-                <form
-                    autoComplete="off"
-                    onSubmit={handleSubmit}
-                >
-                    <input name="token" type="hidden" value={data.token} readOnly />
-                    <input name="email" type="hidden" value={data.email} readOnly />
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>
-                                <h1>{__('Pages.PasswordReset.heading')}</h1>
-                            </CardTitle>
-                            <CardDescription>{__('Pages.PasswordReset.newPasswordHelp')}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div>
+        <Container
+            className="max-w-[30rem] py-8"
+        >
+            <form
+                onSubmit={handleSubmit}
+            >
+                <input name="token" type="hidden" value={data.token} readOnly />
+                <input name="email" type="hidden" value={data.email} readOnly />
+                <Card>
+                    <CardHeader>
+                        <CardTitle>
+                            <h1>{__('Pages.PasswordReset.heading')}</h1>
+                        </CardTitle>
+                        <CardDescription>{__('Pages.PasswordReset.newPasswordHelp')}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Field>
+                            <FieldItem>
                                 <Label htmlFor={`${uuid}-password`}>{__('newPassword')}</Label>
                                 <Input
                                     autoComplete="off"
@@ -73,8 +80,9 @@ export default ({ token, email }: PasswordResetProps) => {
                                     id={`${uuid}-password`}
                                     onChange={handleChange}
                                 />
-                                {errors.password && <div>{errors.password}</div>}
-
+                                {errors.password && <Message variant="destructive">{errors.password}</Message>}
+                            </FieldItem>
+                            <FieldItem>
                                 <Label htmlFor={`${uuid}-password_confirmation`}>{__('newPasswordConfirmation')}</Label>
                                 <Input
                                     autoComplete="off"
@@ -84,17 +92,21 @@ export default ({ token, email }: PasswordResetProps) => {
                                     id={`${uuid}-password_confirmation`}
                                     onChange={handleChange}
                                 />
-                            </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Button type="submit">
-                                <Send />
-                                {__('submitButton')
-                            }</Button>
-                        </CardFooter>
-                    </Card>
-                </form>
-            </div>
+                            </FieldItem>
+
+                            <Action>
+                                <Button
+                                    type="submit"
+                                    disabled={processing}
+                                >
+                                    <Send />
+                                    {__('submitButton')
+                                }</Button>
+                            </Action>
+                        </Field>
+                    </CardContent>
+                </Card>
+            </form>
         </Container>
     </LayoutNoFrame>;
 };

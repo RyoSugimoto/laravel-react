@@ -1,19 +1,18 @@
 import { v4 } from "uuid";
 import { useForm } from "@inertiajs/react";
 import useTranslation from "@/hooks/useTranslation";
+import { ChevronRight as Right } from 'lucide-react';
+import Link from '@/components/base/atoms/Link';
 import { Input } from '@/components/ui/input';
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-
+    Field,
+    FieldItem,
+    Message,
+    Action
+} from '../form';
 
 export default () => {
     const { __ } = useTranslation();
@@ -23,7 +22,7 @@ export default () => {
         password: '',
         password_confirmation: '',
     };
-    const { data, setData, post, errors } = useForm(fieldNames);
+    const { data, setData, post, errors, processing } = useForm(fieldNames);
     const uuid = v4();
 
     function handleSubmit(event: React.FormEvent) {
@@ -38,6 +37,8 @@ export default () => {
     }
 
     return <form onSubmit={handleSubmit}>
+        <Field>
+            <FieldItem>
             <Label htmlFor={`${uuid}-name`}>{__('name')}</Label>
                 <Input
                     type="text"
@@ -46,7 +47,9 @@ export default () => {
                     id={`${uuid}-name`}
                     onChange={handleChange}
                 />
-                {errors.name && <div>{errors.name}</div>}
+                {errors.name && <Message variant="destructive">{errors.name}</Message>}
+            </FieldItem>
+            <FieldItem>
                 <Label htmlFor={`${uuid}-email`}>{__('email')}</Label>
                 <Input
                     type="email"
@@ -55,7 +58,9 @@ export default () => {
                     id={`${uuid}-email`}
                     onChange={handleChange}
                 />
-                {errors.email && <div>{errors.email}</div>}
+                {errors.email && <Message variant="destructive">{errors.email}</Message>}
+            </FieldItem>
+            <FieldItem>
                 <Label htmlFor={`${uuid}-password`}>{__('password')}</Label>
                 <Input
                     type="password"
@@ -64,7 +69,9 @@ export default () => {
                     id={`${uuid}-password`}
                     onChange={handleChange}
                 />
-                {errors.password && <div>{errors.password}</div>}
+                {errors.password && <Message variant="destructive">{errors.password}</Message>}
+            </FieldItem>
+            <FieldItem>
                 <Label htmlFor={`${uuid}-password_confirm`}>{__('passwordConfirmation')}</Label>
                 <Input
                     type="password"
@@ -73,9 +80,26 @@ export default () => {
                     id={`${uuid}-password_confirm`}
                     onChange={handleChange}
                 />
-                <Button type="submit">
+            </FieldItem>
+
+            <Action>
+                <Button type="submit" disabled={processing}>
                     <Check />
                     {__('registerButton')}
                 </Button>
+            </Action>
+        </Field>
+
+        <hr className="my-6" />
+
+        <div className="gap-2 grid mt-6">
+            <Link
+                withIcon
+                href="/login"
+            >
+                <Right size="1em" />
+                {__('Pages.Register.login')}
+            </Link>
+        </div>
     </form>
 };

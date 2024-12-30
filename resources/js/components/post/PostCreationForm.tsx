@@ -45,16 +45,16 @@ export default ({ userName }: PostCreationFormProps) => {
     return <form onSubmit={handleSubmit}>
         <Card>
             <CardHeader>
-                <CardTitle>{__('post.PostCreationForm.title')}</CardTitle>
+                <CardTitle>{__('components.post.PostCreationForm.title')}</CardTitle>
             </CardHeader>
             <CardContent>
-                <Label htmlFor={`${uuid}-body`}>{__('post.PostCreationForm.label')}</Label>
+                <Label htmlFor={`${uuid}-body`}>{__('components.post.PostCreationForm.label')}</Label>
                 <Textarea
                     name="body"
                     id={`${uuid}-body`}
                     value={data.body}
                     placeholder={
-                        __('post.PostCreationForm.placeholder', { max: 200 })
+                        __('components.post.PostCreationForm.placeholder', { max: 200 })
                     }
                     onChange={handleChange}
                 ></Textarea>
@@ -62,7 +62,7 @@ export default ({ userName }: PostCreationFormProps) => {
             <CardFooter>
                 <Button type="submit">
                     <Right />
-                    {__('post.PostCreationForm.submit')}
+                    {__('components.post.PostCreationForm.submit')}
                 </Button>
             </CardFooter>
         </Card>

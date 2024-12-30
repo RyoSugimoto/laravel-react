@@ -1,27 +1,26 @@
 import useTranslation from "@/hooks/useTranslation";
 import useStatus from '@/hooks/useStatus';
 import Layout from '@/layouts/default';
-import Container from "@/components/layout/Container";
+import Container from "@/components/base/atoms/Container";
 import { LogoutButton } from "@/components/auth";
 import PostCreationForm from "@/components/post/PostCreationForm";
 import PostItem from "@/components/post/PostItem";
 import PostList from '@/components/post/PostList';
 import PageHeading from "@/components/PageHeading";
 import SectionHeading from "@/components/SectionHeading";
-import type { Post, Status } from '@/@types';
+import type { Post } from '@/@types';
 
 type DashboardProps = {
-    status: Status;
     name: string;
     email: string;
     language: string;
     posts: Post[];
 };
 
-export default ({ status, name, email, posts }: DashboardProps) => {
+export default ({ name, email, posts }: DashboardProps) => {
     const { __ } = useTranslation();
 
-    useStatus(status);
+    useStatus();
 
     return <Layout>
         <div className="my-8">
@@ -46,7 +45,7 @@ export default ({ status, name, email, posts }: DashboardProps) => {
             <section>
                 <Container>
                     <div className="grid gap-4">
-                        <SectionHeading>{__('Dashboard.yourPosts')}</SectionHeading>
+                        <SectionHeading>{__('Pages.Dashboard.yourPosts')}</SectionHeading>
                         {posts.length !== 0 && <PostList>
                             {posts.map((post, index) => {
                                 return <PostItem

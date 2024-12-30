@@ -1,90 +1,73 @@
+import { router } from '@inertiajs/react';
 import useStatus from '@/hooks/useStatus';
 import useTranslation from '@/hooks/useTranslation';
-import Layout from '@/layouts/default';
-import { FormInputIcon, Sparkles } from 'lucide-react';
+import Layout from '@/layouts/welcome';
+import Container from '@/components/base/atoms/Container';
+import { FormInput, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LoginForm, RegisterForm } from "@/components/auth";
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+    Card,
+    CardHeader,
+    CardContent,
+    CardTitle,
+} from '@/components/ui/card';
 
 type WelcomeProps = {};
 
-export default (props: WelcomeProps) => {
+export default ({}: WelcomeProps) => {
     useStatus();
 
     const { __ } = useTranslation();
 
     return <Layout>
-        {/* メインコピー */}
-        <div className="grid place-items-center px-2 py-6">
-            <p
-                className="text-3xl font-bold ff-pm"
-            >{__('Pages.Welcome.copy')}</p>
-            <h1 className="text-lg mt-4 ff-pm">{__('Pages.Welcome.lead')}</h1>
-        </div>
-
-        {/* ログインもしくは新規登録のアクションUI */}
-        <div
-            className="bg-card border grid gap-4 max-w-96 mx-auto my-4 p-2 py-8 place-items-center rounded-sm"
+        <Container
+            className="gap-4 grid py-8 sm:grid-cols-2"
         >
-
-            {/* ログイン */}
-            <section className="grid gap-4 place-items-center">
-                <h2
-                    className="font-bold text-md"
-                >{__('Pages.Welcome.haveAccount')}</h2>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button size="lg">
-                            <FormInputIcon />
+            <section>
+                <Card>
+                    <CardHeader>
+                        <CardTitle><h2
+                        className="font-bold text-md text-center"
+                    >{__('Pages.Welcome.haveAccount')}</h2></CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid place-items-center">
+                        <Button
+                            type="button"
+                            size="lg"
+                            onClick={event => {
+                                event.preventDefault();
+                                router.get('/login');
+                            }}
+                        >
+                            <FormInput />
                             {__('Pages.Welcome.openLoginForm')}
                         </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>{__('Pages.Welcome.LoginForm.title')}</DialogTitle>
-                            <DialogDescription>{__('Pages.Welcome.LoginForm.description')}</DialogDescription>
-                        </DialogHeader>
-
-                        <LoginForm />
-
-                    </DialogContent>
-                </Dialog>
+                    </CardContent>
+                </Card>
             </section>
 
-            <p className="text-sm">{__('Pages.Welcome.or')}</p>
-
-            {/* 新規登録 */}
-            <section className="grid gap-4 place-items-center">
-                <h2
-                    className="font-bold text-md"
-                >{__('Pages.Welcome.haveNoAccount')}</h2>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button size="lg">
+            <section>
+                <Card>
+                    <CardHeader>
+                        <CardTitle><h2
+                        className="font-bold text-md text-center"
+                    >{__('Pages.Welcome.haveNoAccount')}</h2></CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid place-items-center">
+                        <Button
+                            type="button"
+                            size="lg"
+                            onClick={event => {
+                                event.preventDefault();
+                                router.get('/register');
+                            }}
+                        >
                             <Sparkles />
                             {__('Pages.Welcome.openRegisterForm')}
                         </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>{__('Pages.Welcome.RegisterForm.title')}</DialogTitle>
-                            <DialogDescription>{__('Pages.Welcome.RegisterForm.description')}</DialogDescription>
-                        </DialogHeader>
-
-                        <RegisterForm />
-
-                    </DialogContent>
-                </Dialog>
+                    </CardContent>
+                </Card>
             </section>
-        </div>
+        </Container>
     </Layout>;
 };

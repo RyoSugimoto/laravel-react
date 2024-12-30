@@ -23,19 +23,13 @@ Route::controller(PostController::class)
     });
 });
 
-Route::controller(LanguageController::class)
-->name('language.')
-->group(function ()
-{
-    Route::post('/switch-language', 'store')
-    ->name('switch');
-});
-
 Route::controller(GuestController::class)
 ->middleware('guest')
 ->group(function ()
 {
-    Route::get('/', 'index')->name('login');
+    Route::get('/', 'index')->name('welcome');
+    Route::get('/login', 'store')->name('login');
+    Route::get('/register', 'create')->name('register');
 });
 
 Route::controller(PasswordResetController::class)
@@ -43,15 +37,18 @@ Route::controller(PasswordResetController::class)
 ->group(function ()
 {
     /**
-     * Fortifyの設定（ `config/fortify.php` ） で
-     * `'view'` を `false` にした場合、
-     * 名前が `password.reset` のルートで
-     * パスワード再設定用のページを表示させる必要がある。
+     * Fortifyの設定（ `config/fortify.php` ） で `'view'` を `false` にした場合、
+     * 名前が `password.reset` のルートでパスワード再設定用のページを表示させる必要がある。
      * @see https://laravel.com/docs/11.x/fortify#disabling-views-and-password-reset
-     * TODO: トークンがない場合エラーを返す。
      */
     Route::get('/', 'store')
     ->name('password.reset');
+});
 
-    Route::get('/request', 'request');
+Route::controller(LanguageController::class)
+->name('language.')
+->group(function ()
+{
+    Route::post('/switch-language', 'store')
+    ->name('switch');
 });
