@@ -9,6 +9,7 @@ import PostList from '@/components/post/PostList';
 import PageHeading from "@/components/PageHeading";
 import SectionHeading from "@/components/SectionHeading";
 import type { Post } from '@/@types';
+import Link from "@/components/base/atoms/Link";
 
 type DashboardProps = {
     name: string;
@@ -23,17 +24,16 @@ export default ({ name, email, posts }: DashboardProps) => {
     useStatus();
 
     return <Layout>
-        <div className="my-8">
-            <Container>
-                <PageHeading>
-                    <span
-                        aria-label={__('name')}
-                    >{name}</span>
-                </PageHeading>
-                <div aria-label={__('email')}>{email}</div>
-                <div><LogoutButton /></div>
-            </Container>
-        </div>
+        <Container className="my-8">
+            <PageHeading>
+                <span
+                    aria-label={__('name')}
+                >{name}</span>
+            </PageHeading>
+            <div aria-label={__('email')}>{email}</div>
+            <div><Link href="/followings">{__('followings')}</Link></div>
+            <div><LogoutButton /></div>
+        </Container>
 
         <div className="grid gap-8">
             <section>

@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -24,6 +24,25 @@ class User extends Authenticatable
         'password',
         'language',
     ];
+
+    /**
+     * ユーザによるフォローレコードと、それぞれのレコードに紐づいたユーザ情報を返す。
+     */
+    public function getFollowing(): \Illuminate\Support\Collection
+    {
+        $followings = DB::table('follows')
+        ->selectRaw('follows.followee_id, follows.approved, follows.muted, users.name')
+        ->join('users', 'follows.followee_id', '=', 'users.id')
+        ->where('follows.id', '=', $this->id)
+        ->get();
+
+        return $followings;
+    }
+
+    public function follow()
+    {
+        return $this->hasMany(Follow::class);
+    }
 
     public function posts()
     {
