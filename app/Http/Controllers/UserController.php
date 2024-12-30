@@ -11,17 +11,18 @@ class UserController extends Controller
     {
         $login_user = Auth::user();
 
-        $followings = $login_user->getFollowing();
+        $follows_with_user = $login_user->getFollowsWithUser();
+
+        // \Illuminate\Support\Facades\Log::info($follows_with_user);
+
+        $follow_objects = $follows_with_user->map(function ($follow_with_user)
+        {
+            $follow_dto = new \App\DTO\FollowDTO($follow_with_user);
+            return $follow_dto->get();
+        });
 
         return inertia('Followings', [
-            'followings' => $followings->map(function ($following)
-            {
-                return [
-                    'name' => $following->name,
-                    'muted' => $following->muted,
-                    'approved' => $following->approved,
-                ];
-            }),
+            'followings' => $follow_objects,
         ]);
     }
 }

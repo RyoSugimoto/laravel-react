@@ -1,6 +1,6 @@
 import useTranslation from "@/hooks/useTranslation";
 import useStatus from '@/hooks/useStatus';
-import Layout from '@/layouts/default';
+import Layout from '@/layouts/home';
 import Container from "@/components/base/atoms/Container";
 import { LogoutButton } from "@/components/auth";
 import PostCreationForm from "@/components/post/PostCreationForm";
@@ -10,37 +10,30 @@ import PageHeading from "@/components/PageHeading";
 import SectionHeading from "@/components/SectionHeading";
 import type { Post } from '@/@types';
 import Link from "@/components/base/atoms/Link";
+import useSharedProps from '@/hooks/use-shared-props';
 
 type DashboardProps = {
-    name: string;
-    email: string;
-    language: string;
     posts: Post[];
 };
 
-export default ({ name, email, posts }: DashboardProps) => {
+export default ({  posts }: DashboardProps) => {
     const { __ } = useTranslation();
+
+    const { user } = useSharedProps();
 
     useStatus();
 
     return <Layout>
-        <Container className="my-8">
-            <PageHeading>
-                <span
-                    aria-label={__('name')}
-                >{name}</span>
-            </PageHeading>
-            <div aria-label={__('email')}>{email}</div>
-            <div><Link href="/followings">{__('followings')}</Link></div>
-            <div><LogoutButton /></div>
-        </Container>
-
         <div className="grid gap-8">
+            {user !== null && (
             <section>
                 <Container>
-                    <PostCreationForm userName={name} />
+                    <PostCreationForm
+                        userName={user.name}
+                    />
                 </Container>
             </section>
+            )}
 
             <section>
                 <Container>

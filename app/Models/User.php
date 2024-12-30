@@ -28,12 +28,12 @@ class User extends Authenticatable
     /**
      * ユーザによるフォローレコードと、それぞれのレコードに紐づいたユーザ情報を返す。
      */
-    public function getFollowing(): \Illuminate\Support\Collection
+    public function getFollowsWithUser(): \Illuminate\Support\Collection
     {
         $followings = DB::table('follows')
-        ->selectRaw('follows.followee_id, follows.approved, follows.muted, users.name')
+        ->selectRaw('follows.followee_id, follows.approved as approved, follows.muted as muted, users.name as name')
         ->join('users', 'follows.followee_id', '=', 'users.id')
-        ->where('follows.id', '=', $this->id)
+        ->where('follows.user_id', '=', $this->id)
         ->get();
 
         return $followings;

@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\DTO\UserDTO;
 use App\Services\StatusService as Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -66,6 +68,7 @@ class HandleInertiaRequests extends Middleware
                 'data' => $translation_data ?? [],
                 'locale' => $locale,
             ],
+            'user' => (new UserDTO(Auth::user()))->get(),
         ]);
     }
 }

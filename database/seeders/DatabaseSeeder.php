@@ -28,6 +28,11 @@ class DatabaseSeeder extends Seeder
                         'approved' => true,
                         'muted' => false,
                     ],
+                    [
+                        'id' => 2,
+                        'approved' => true,
+                        'muted' => false,
+                    ],
                 ],
             ],
             [
@@ -49,6 +54,34 @@ class DatabaseSeeder extends Seeder
                 'password' => 'hogehoge',
                 'language' => null,
                 'follows' => [
+                    [
+                        'id' => 0,
+                        'approved' => false,
+                        'muted' => false,
+                    ],
+                    [
+                        'id' => 1,
+                        'approved' => false,
+                        'muted' => false,
+                    ],
+                    [
+                        'id' => 3,
+                        'approved' => false,
+                        'muted' => false,
+                    ],
+                ],
+            ],
+            [
+                'name' => 'Jonson',
+                'email' => 'jonson@example.com',
+                'password' => 'passowrd',
+                'language' => null,
+                'follows' => [
+                    [
+                        'id' => 1,
+                        'approved' => false,
+                        'muted' => false,
+                    ],
                     [
                         'id' => 2,
                         'approved' => false,
