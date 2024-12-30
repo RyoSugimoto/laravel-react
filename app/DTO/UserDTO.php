@@ -8,7 +8,7 @@ class UserDTO
 {
     private $user = null;
 
-    public function __construct(User $user)
+    public function __construct(User | null $user = null)
     {
         $this->user = $user;
     }
