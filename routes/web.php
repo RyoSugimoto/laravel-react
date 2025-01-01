@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(UserController::class)
 ->group(function ()
 {
-    Route::get('/followings', 'followingsIndex');
+    Route::get('/followings', 'followings');
 });
 
 Route::controller(PostController::class)

@@ -18,16 +18,15 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
         {user !== null && (
 
         <Container className="my-8">
-            <p>
-                <span
-                    aria-label={__('name')}
-                >{user.name}</span>
-            </p>
-            <div aria-label={__('email')}>{user.email}</div>
+            <h1
+                aria-label={__('layouts.home.userName')}
+                className="font-bold text-2xl"
+            >{user.displayName || user.name}</h1>
+            <div aria-label={__('layouts.home.name')}>{user.name}</div>
             <nav className="flex gap-4">
-                <Link href="/home">{__('home')}</Link>
-                <Link href="/followings">{__('followings')}</Link>
-                <Link href="/follow-requests">{__('followRequests')}</Link>
+                <Link href="/home">{__('layouts.home.home')}</Link>
+                <Link href="/followings">{__('layouts.home.followings')}</Link>
+                <Link href="/follow-requests">{__('layouts.home.followRequests')}</Link>
                 <LogoutButton />
             </nav>
         </Container>

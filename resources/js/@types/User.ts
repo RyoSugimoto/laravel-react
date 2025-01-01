@@ -1,7 +1,8 @@
 type User = {
     name: string;
-    email: string;
-    language: string;
+    displayName: string | null;
+    profile: string | null;
+    iconUrl: URL | null;
 } | null;
 
 export default User;

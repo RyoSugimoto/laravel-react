@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Follow;
+use App\Models\Following;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'suzuki@example.com',
                 'password' => 'password',
                 'language' => 'ja',
-                'follows' => [
+                'followings' => [
                     [
                         'id' => 1,
                         'approved' => true,
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'smith@example.com',
                 'password' => 'fugafuga',
                 'language' => 'en',
-                'follows' => [
+                'followings' => [
                     [
                         'id' => 0,
                         'approved' => true,
@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'watanabe@example.com',
                 'password' => 'hogehoge',
                 'language' => null,
-                'follows' => [
+                'followings' => [
                     [
                         'id' => 0,
                         'approved' => false,
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'jonson@example.com',
                 'password' => 'passowrd',
                 'language' => null,
-                'follows' => [
+                'followings' => [
                     [
                         'id' => 1,
                         'approved' => false,
@@ -113,14 +113,14 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
             ]);
 
-            $user_follows = $settings[$index]['follows'];
+            $user_followings = $settings[$index]['followings'];
 
-            foreach($user_follows as $follow) {
-                Follow::factory()->create([
+            foreach($user_followings as $following) {
+                Following::factory()->create([
                     'user_id' => $user->id,
-                    'followee_id' => $users->get($follow['id'])->id,
-                    'approved' => $follow['approved'],
-                    'muted' => $follow['muted'],
+                    'followed_user_id' => $users->get($following['id'])->id,
+                    'approved' => $following['approved'],
+                    'muted' => $following['muted'],
                 ]);
             }
         });

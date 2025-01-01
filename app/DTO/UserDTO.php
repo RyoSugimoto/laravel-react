@@ -21,8 +21,9 @@ class UserDTO
 
         return [
             'name' => $this->user->name,
-            'email' => $this->user->email,
-            'language' => $this->user->language,
+            'displayName' => $this->user->display_name,
+            'profile' => $this->user->profile,
+            'iconUrl' => $this->user->icon_url,
         ];
     }
 }

@@ -1,7 +1,9 @@
 type Following = {
-    name: string;
+    userName: string;
+    followedUserName: string;
     muted: boolean;
     approved: boolean;
+    createdAt: string;
 }
 
 export default Following;

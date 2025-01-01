@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -24,30 +23,6 @@ class User extends Authenticatable
         'password',
         'language',
     ];
-
-    /**
-     * ユーザによるフォローレコードと、それぞれのレコードに紐づいたユーザ情報を返す。
-     */
-    public function getFollowsWithUser(): \Illuminate\Support\Collection
-    {
-        $followings = DB::table('follows')
-        ->selectRaw('follows.followee_id, follows.approved as approved, follows.muted as muted, users.name as name')
-        ->join('users', 'follows.followee_id', '=', 'users.id')
-        ->where('follows.user_id', '=', $this->id)
-        ->get();
-
-        return $followings;
-    }
-
-    public function follow()
-    {
-        return $this->hasMany(Follow::class);
-    }
-
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -70,5 +45,38 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * 受け取ったユーザ名の `User` を返す。
+     * ユーザが見つからない場合は `null` を返す。
+     * @param string $user_name
+     * @return User | null
+     */
+    static public function getUserByName(string $user_name): User | null
+    {
+        $user = User::where('name', $user_name)->first();
+
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    /**
+     * `followings` テーブルとの関連
+     */
+    public function following()
+    {
+        return $this->hasMany(Following::class);
+    }
+
+    /**
+     * `posts` テーブルとの関連
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

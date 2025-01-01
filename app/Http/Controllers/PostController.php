@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use App\Repositories\UserRepository as Users;
+use App\Models\User;
 use App\DTO\PostDTO;
 
 class PostController extends Controller
@@ -64,7 +64,7 @@ class PostController extends Controller
         $name = $request->name;
 
         try {
-            $user = Users::getUserByName($name);
+            $user = User::getUserByName($name);
             $post->user_id = $user->id;
             $post->body = $request->body;
             $post->save();

@@ -16,16 +16,23 @@ export default ({ followings }: FollowingProps) => {
         <Container>
             <h1>{__('usersFollowed')}</h1>
             <div className="gap-2 grid">
-                {followings.map(following => {
-                    return <div className="gap-2 flex border p-2 rounded-sm">
+                {followings.map(({followedUserName, approved, muted, createdAt}, index) => {
+                    return <div
+                        key={index}
+                        className="gap-2 flex border p-2 rounded-sm"
+                    >
                         <ul>
-                            <li>name: {following.name}</li>
-                            {following.muted && <li>{__('muting')}</li>}
-                            <li>{following.approved ? __('followingNow') : __('waitingApprovement')}</li>
+                            <li>
+                                <Link
+                                    href={`/user/${followedUserName}`}
+                                    title={`${__('userDetails', {
+                                        name: followedUserName,
+                                    })}`}
+                                >{followedUserName}</Link>
+                            </li>
+                            {muted && <li>{__('muting')}</li>}
+                            <li>{approved ? __('followingNow') : __('waitingApprovement')}</li>
                         </ul>
-                        <div>
-                            <Link href={`/user/${following.name}`}>{__('userDetails')}</Link>
-                            </div>
                         <div>
                             <Button size="sm">{__('unfollow')}</Button>
                             <Button size="sm">{__('toMute')}</Button>

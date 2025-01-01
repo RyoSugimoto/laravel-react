@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Following;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function followingsIndex()
+    public function followings()
     {
         $login_user = Auth::user();
 
-        $follows_with_user = $login_user->getFollowsWithUser();
+        $followings_with_user_data = Following::getFollowingsWithUserDataByUserId($login_user->id);
 
-        // \Illuminate\Support\Facades\Log::info($follows_with_user);
-
-        $follow_objects = $follows_with_user->map(function ($follow_with_user)
+        $followings = $followings_with_user_data->map(function ($following_with_user_data)
         {
-            $follow_dto = new \App\DTO\FollowDTO($follow_with_user);
-            return $follow_dto->get();
+            $data = \App\DTO\FollowingDTO::createFromFollowingWithUserData($following_with_user_data)->toArrayForClient();
+
+            return $data;
         });
 
         return inertia('Followings', [
-            'followings' => $follow_objects,
+            'followings' => $followings,
         ]);
     }
 }

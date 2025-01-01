@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Follow>
  */
-class FollowFactory extends Factory
+class FollowingFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +19,7 @@ class FollowFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'followee_id' => User::inRandomOrder()->first()->id,
+            'followed_user_id' => User::inRandomOrder()->first()->id,
             'approved' => fake()->boolean(),
             'muted' => fake()->boolean(),
         ];
