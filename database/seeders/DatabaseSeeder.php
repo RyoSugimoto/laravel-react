@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         $settings = [
             [
-                'name' => 'Suzuki',
+                'name' => 't_suzuki_19790618',
+                'display_name' => '鈴木太郎',
                 'email' => 'suzuki@example.com',
                 'password' => 'password',
                 'language' => 'ja',
@@ -37,7 +38,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Smith',
+                'name' => 'john_smith_new_york',
+                'display_name' => 'John Smith',
                 'email' => 'smith@example.com',
                 'password' => 'fugafuga',
                 'language' => 'en',
@@ -50,7 +52,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Watanabe',
+                'name' => 'nabetchee35',
+                'display_name' => 'Ken Watanabe',
                 'email' => 'watanabe@example.com',
                 'password' => 'hogehoge',
                 'language' => null,
@@ -73,7 +76,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ],
             [
-                'name' => 'Jonson',
+                'name' => 'jonson2980',
+                'display_name' => null,
                 'email' => 'jonson@example.com',
                 'password' => 'passowrd',
                 'language' => null,
@@ -107,6 +111,7 @@ class DatabaseSeeder extends Seeder
         {
             UserProfile::factory()->create([
                 'user_id' => $user->id,
+                'display_name' => $settings[$index]['display_name'],
             ]);
 
             Post::factory(5)->create([

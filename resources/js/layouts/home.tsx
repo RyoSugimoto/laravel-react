@@ -23,7 +23,7 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
                 className="font-bold text-2xl"
             >{user.displayName || user.name}</h1>
             <div aria-label={__('layouts.home.name')}>{user.name}</div>
-            <nav className="flex gap-4">
+            <nav className="flex flex-wrap gap-4">
                 <Link href="/home">{__('layouts.home.home')}</Link>
                 <Link href="/followings">{__('layouts.home.followings')}</Link>
                 <Link href="/follow-requests">{__('layouts.home.followRequests')}</Link>

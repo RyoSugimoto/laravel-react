@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\DTO\UserDTO;
+use App\Models\User;
 use App\Services\StatusService as Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -55,6 +56,8 @@ class HandleInertiaRequests extends Middleware
             throw new \Exception("ロケール `{$locale}` の翻訳ファイル {$json} が見つかりません。{$e->getMessage()}");
         }
 
+        $auth_user = Auth::user();
+
         return array_merge(parent::share($request), [
             /**
              * 次のメッセージを含む `Status` オブジェクト。
@@ -68,7 +71,16 @@ class HandleInertiaRequests extends Middleware
                 'data' => $translation_data ?? [],
                 'locale' => $locale,
             ],
-            'user' => (new UserDTO(Auth::user()))->get(),
+            'user' => $auth_user ? $this->getAuthUserDataById($auth_user->id) : null,
         ]);
+    }
+
+    protected function getAuthUserDataById($user_id)
+    {
+        $user_with_profile = User::getUserWithProfileById($user_id);
+        $dto = UserDTO::createFromUserWithProfile($user_with_profile);
+        $user_data = $dto->toArrayForAuthClient();
+
+        return $user_data;
     }
 }

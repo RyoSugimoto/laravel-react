@@ -25,7 +25,15 @@ export default ({  posts }: DashboardProps) => {
 
     return <Layout>
         <div className="grid gap-8">
-            {user !== null && (
+            {user !== null && <>
+            <section>
+                <Container>
+                    <ul>
+                        <li>{user.profile}</li>
+                    </ul>
+                </Container>
+            </section>
+
             <section>
                 <Container>
                     <PostCreationForm
@@ -33,7 +41,7 @@ export default ({  posts }: DashboardProps) => {
                     />
                 </Container>
             </section>
-            )}
+            </>}
 
             <section>
                 <Container>

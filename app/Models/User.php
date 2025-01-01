@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -62,6 +63,25 @@ class User extends Authenticatable
         }
 
         return $user;
+    }
+
+    static public function getUserWithProfileById(string $id)
+    {
+        $user_with_profile = DB::table('users', 'U')
+        ->select([
+            'U.id as id',
+            'U.name as name',
+            'U.email as email',
+            'U.language as language',
+            'P.display_name as display_name',
+            'P.body as profile_body',
+            'P.icon_url as icon_url',
+        ])
+        ->where('U.id', '=', $id)
+        ->join('user_profiles as P', 'U.id', '=', 'P.user_id')
+        ->first();
+
+        return $user_with_profile;
     }
 
     /**

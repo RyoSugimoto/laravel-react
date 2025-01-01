@@ -2,28 +2,74 @@
 
 namespace App\DTO;
 
-use App\Models\User;
-
 class UserDTO
 {
-    private $user = null;
+    private $name;
+    private $email;
+    private $language;
+    // private $timezone;
+    private $display_name;
+    private $profile_body;
+    private $icon_url;
 
-    public function __construct(User | null $user = null)
+    public function __construct(
+        $name,
+        $email,
+        $language,
+        // $timezone,
+        $display_name,
+        $profile_body,
+        $icon_url
+    )
     {
-        $this->user = $user;
+        $this->name = $name;
+        $this->email = $email;
+        $this->language = $language;
+        // $this->timezone = $timezone;
+        $this->display_name = $display_name;
+        $this->profile_body = $profile_body;
+        $this->icon_url = $icon_url;
     }
 
-    public function get(): array | null
+    static public function createFromUserWithProfile($user_with_profile)
     {
-        if (!$this->user) {
-            return null;
-        }
+        $dto = new self(
+            $user_with_profile->name,
+            $user_with_profile->email,
+            $user_with_profile->language,
+            // $user_with_profile->timezone,
+            $user_with_profile->display_name,
+            $user_with_profile->profile_body,
+            $user_with_profile->icon_url
+        );
 
-        return [
-            'name' => $this->user->name,
-            'displayName' => $this->user->display_name,
-            'profile' => $this->user->profile,
-            'iconUrl' => $this->user->icon_url,
+        return $dto;
+    }
+
+    public function toArrayForClient()
+    {
+        $data = [
+            'name' => $this->name,
+            'display_name' => $this->display_name,
+            'profile' => $this->profile_body,
+            'iconUrl' => $this->icon_url,
         ];
+
+        return $data;
+    }
+
+    public function toArrayForAuthClient()
+    {
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'language' => $this->language,
+            // 'timezone' => $this->timezone,
+            'displayName' => $this->display_name,
+            'profile' => $this->profile_body,
+            'iconUrl' => $this->icon_url,
+        ];
+
+        return $data;
     }
 }

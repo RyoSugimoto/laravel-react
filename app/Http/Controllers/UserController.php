@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\FollowingDTO;
 use App\Models\Following;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
 
         $followings = $followings_with_user_data->map(function ($following_with_user_data)
         {
-            $data = \App\DTO\FollowingDTO::createFromFollowingWithUserData($following_with_user_data)->toArrayForClient();
+            $data = FollowingDTO::createFromFollowingWithUserData($following_with_user_data)->toArrayForClient();
 
             return $data;
         });

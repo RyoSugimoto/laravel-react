@@ -16,11 +16,13 @@ class Following extends Model
      */
     static public function getFollowingsWithUserDataByUserId(string $user_id): Collection
     {
-        $followings_with_followed_user_data = DB::table('followings', 'F')
+        $followings_with_user_data = DB::table('followings', 'F')
         ->select([
             'F.user_id as id',
             'A.name as user_name',
             'B.name as followed_user_name',
+            'P.display_name as followed_user_display_name',
+            'P.icon_url as followed_user_icon_url',
             'F.user_id as user_id',
             'F.followed_user_id as followed_user_id',
             'F.approved as approved',
@@ -29,10 +31,11 @@ class Following extends Model
         ])
         ->leftJoin('users as A', 'F.user_id', '=', 'A.id')
         ->leftJoin('users as B', 'F.followed_user_id', '=', 'B.id')
+        ->leftJoin('user_profiles as P', 'F.followed_user_id', '=', 'P.user_id')
         ->where('F.user_id', '=', $user_id)
         ->get();
 
-        return $followings_with_followed_user_data;
+        return $followings_with_user_data;
     }
 
     public function user()

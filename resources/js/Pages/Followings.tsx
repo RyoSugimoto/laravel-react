@@ -14,9 +14,9 @@ export default ({ followings }: FollowingProps) => {
 
     return <Layout>
         <Container>
-            <h1>{__('usersFollowed')}</h1>
+            <h1>{__('Pages.Following.followingUsers')}</h1>
             <div className="gap-2 grid">
-                {followings.map(({followedUserName, approved, muted, createdAt}, index) => {
+                {followings.map(({followedUserName, approved, muted, createdAt, followedUserDisplayName, followedUserIconUrl}, index) => {
                     return <div
                         key={index}
                         className="gap-2 flex border p-2 rounded-sm"
@@ -28,7 +28,11 @@ export default ({ followings }: FollowingProps) => {
                                     title={`${__('userDetails', {
                                         name: followedUserName,
                                     })}`}
-                                >{followedUserName}</Link>
+                                >
+                                    {followedUserIconUrl && <img src={followedUserIconUrl} alt="" />}
+                                    {followedUserDisplayName && <span>{followedUserDisplayName}</span>}
+                                    <span>{followedUserName}</span>
+                                </Link>
                             </li>
                             {muted && <li>{__('muting')}</li>}
                             <li>{approved ? __('followingNow') : __('waitingApprovement')}</li>
