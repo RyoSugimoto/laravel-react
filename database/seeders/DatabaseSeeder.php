@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Follow;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\UserProfile;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
+        $settings = [
             [
                 'name' => 'Suzuki',
                 'email' => 'suzuki@example.com',
@@ -91,32 +92,37 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
-        foreach ($data as $item) {
+        foreach ($settings as $user_settings) {
             User::factory()->create([
-                'name' => $item['name'],
-                'email' => $item['email'],
-                'password' => Hash::make($item['password']),
-                'language' => $item['language'],
+                'name' => $user_settings['name'],
+                'email' => $user_settings['email'],
+                'password' => Hash::make($user_settings['password']),
+                'language' => $user_settings['language'],
             ]);
-
-            $users = User::all()->toArray();
         }
 
-        foreach ($users as $index => $user) {
-            Post::factory(5)->create([
-                'user_id' => $user['id'],
+        $users = User::all();
+
+        $users->map(function ($user, $index) use ($settings, $users)
+        {
+            UserProfile::factory()->create([
+                'user_id' => $user->id,
             ]);
 
-            $user_follows = $data[$index]['follows'];
+            Post::factory(5)->create([
+                'user_id' => $user->id,
+            ]);
+
+            $user_follows = $settings[$index]['follows'];
 
             foreach($user_follows as $follow) {
                 Follow::factory()->create([
-                    'user_id' => $user['id'],
-                    'followee_id' => $users[$follow['id']]['id'],
+                    'user_id' => $user->id,
+                    'followee_id' => $users->get($follow['id'])->id,
                     'approved' => $follow['approved'],
                     'muted' => $follow['muted'],
                 ]);
             }
-        }
+        });
     }
 }
