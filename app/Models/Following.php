@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Following extends Model
 {
@@ -14,37 +14,31 @@ class Following extends Model
     /**
      * 受け取ったIDのユーザによるフォロー（ `followings` ）のレコードぞれぞれにフォロー対象のユーザの情報（ `name` ）を含めたデータのコレクション返す。
      */
-    static public function getFollowingsWithUserDataByUserId(string $user_id): Collection
+    static public function getFollowingsWithUserDataByUserId(string $user_id)
     {
-        $followings_with_user_data = DB::table('followings', 'F')
-        ->select([
-            'F.user_id as id',
-            'A.name as user_name',
-            'B.name as followed_user_name',
-            'P.display_name as followed_user_display_name',
-            'P.icon_url as followed_user_icon_url',
-            'F.user_id as user_id',
-            'F.followed_user_id as followed_user_id',
-            'F.approved as approved',
-            'F.muted as muted',
-            'F.created_at as created_at',
+        $followings_with_user_data = self::where('user_id', $user_id)
+        ->with([
+            'user:id,name',
+            'followedUser:id,name',
+            'followedUserProfile:user_id,display_name,icon_url'
         ])
-        ->leftJoin('users as A', 'F.user_id', '=', 'A.id')
-        ->leftJoin('users as B', 'F.followed_user_id', '=', 'B.id')
-        ->leftJoin('user_profiles as P', 'F.followed_user_id', '=', 'P.user_id')
-        ->where('F.user_id', '=', $user_id)
         ->get();
 
         return $followings_with_user_data;
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function followedUser()
+    public function followedUser(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'followed_user_id', 'id');
+    }
+
+    public function followedUserProfile(): BelongsTo
+    {
+        return $this->belongsTo(UserProfile::class, 'followed_user_id', 'user_id');
     }
 }

@@ -1,4 +1,3 @@
-import { usePage } from '@inertiajs/react';
 import useTranslation from '@/hooks/useTranslation';
 import Layout from './default';
 import Container from '@/components/base/atoms/Container';
@@ -16,21 +15,19 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children }) => {
 
     return <Layout>
         {user !== null && (
-
-        <Container className="my-8">
-            <h1
-                aria-label={__('layouts.home.userName')}
-                className="font-bold text-2xl"
-            >{user.displayName || user.name}</h1>
-            <div aria-label={__('layouts.home.name')}>{user.name}</div>
-            <nav className="flex flex-wrap gap-4">
-                <Link href="/home">{__('layouts.home.home')}</Link>
-                <Link href="/followings">{__('layouts.home.followings')}</Link>
-                <Link href="/follow-requests">{__('layouts.home.followRequests')}</Link>
-                <LogoutButton />
-            </nav>
-        </Container>
-
+            <Container className="my-8">
+                <h1
+                    aria-label={__('layouts.home.userName')}
+                    className="font-bold text-2xl"
+                >{user.displayName ?? user.name}</h1>
+                <div aria-label={__('layouts.home.name')}>{user.name}</div>
+                <nav className="flex flex-wrap gap-4">
+                    <Link href="/home">{__('layouts.home.home')}</Link>
+                    <Link href="/followings">{__('layouts.home.followings')}</Link>
+                    <Link href="/follow-requests">{__('layouts.home.followRequests')}</Link>
+                    <LogoutButton />
+                </nav>
+            </Container>
         )}
 
         <div>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-use App\DTO\PostDTO;
+use App\Services\DTO\PostDTO;
+use Illuminate\support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {

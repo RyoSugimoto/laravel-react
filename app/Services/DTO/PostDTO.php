@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\Services\DTO;
 
 use App\Models\Post;
 use App\Services\DateService as Date;

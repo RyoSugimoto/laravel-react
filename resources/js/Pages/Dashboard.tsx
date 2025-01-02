@@ -23,6 +23,8 @@ export default ({  posts }: DashboardProps) => {
 
     useStatus();
 
+    if (!user) return <></>;
+
     return <Layout>
         <div className="grid gap-8">
             {user !== null && <>

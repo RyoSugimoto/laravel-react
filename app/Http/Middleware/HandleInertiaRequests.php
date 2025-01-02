@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\DTO\UserDTO;
-use App\Models\User;
-use App\Services\StatusService as Status;
+use App\Services\Repositories\UserWithProfile;
+use App\Services\DTO\StatusDTO;
+use App\Services\DTO\SharedPropsDTO;
+use App\Services\DTO\TranslationDTO;
+use App\Services\DTO\UserDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -41,46 +43,17 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $locale = App::getLocale();
-
-        try {
-            /**
-             * @var string 翻訳ファイルの絶対パス
-             * * `lang_path` の引数には、対象の翻訳ファイル（ `<ロケール名>.json` ）の `/lang` ディレクトリからの相対パスを指定する。
-             */
-            $json = lang_path("frontend/{$locale}.json");
-            $content = file_get_contents($json);
-            /** @var array<string, mixed> 翻訳データの内容の連想配列 */
-            $translation_data = json_decode($content, true);
-        } catch(\Exception $e) {
-            // 翻訳ファイルが存在しない場合
-            throw new \Exception("ロケール `{$locale}` の翻訳ファイル {$json} が見つかりません。{$e->getMessage()}");
-        }
-
         $auth_user = Auth::user();
 
-        return array_merge(parent::share($request), [
-            /**
-             * 次のメッセージを含む `Status` オブジェクト。
-             * * 新パスワードの設定が成功した場合に返すメッセージ
-             *  @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-response
-             * * パスワード再設定のリクエストが成功した場合に返すメッセージ
-             *  @see https://laravel.com/docs/11.x/fortify#handling-the-password-reset-link-request-response
-             */
-            'status' => Status::create(),
-            'translation' => [
-                'data' => $translation_data ?? [],
-                'locale' => $locale,
-            ],
-            'user' => $auth_user ? $this->getAuthUserDataById($auth_user->id) : null,
-        ]);
-    }
+        $user_with_profile = UserWithProfile::fromUserId($auth_user->id);
+        $user_dto = UserDTO::fromUserWithProfile($user_with_profile);
 
-    protected function getAuthUserDataById($user_id)
-    {
-        $user_with_profile = User::getUserWithProfileById($user_id);
-        $dto = UserDTO::createFromUserWithProfile($user_with_profile);
-        $user_data = $dto->toArrayForAuthClient();
+        $shared_data = SharedPropsDTO::fromDTO(
+            StatusDTO::fromSession(),
+            TranslationDTO::fromLocale($locale),
+            $user_dto
+        )->toWrappedArrayForClient();
 
-        return $user_data;
+        return array_merge(parent::share($request), $shared_data);
     }
 }

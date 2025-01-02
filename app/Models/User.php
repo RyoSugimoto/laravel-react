@@ -6,7 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,30 @@ class User extends Authenticatable
         'password',
         'language',
     ];
+
+    /**
+     * `UserProfile` との関連
+     */
+    public function userProfile(): BelongsTo
+    {
+        return $this->belongsTo(UserProfile::class, 'id', 'user_id');
+    }
+
+    /**
+     * `Following` との関連
+     */
+    public function following(): HasMany
+    {
+        return $this->hasMany(Following::class);
+    }
+
+    /**
+     * `Post` との関連
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -52,9 +77,9 @@ class User extends Authenticatable
      * 受け取ったユーザ名の `User` を返す。
      * ユーザが見つからない場合は `null` を返す。
      * @param string $user_name
-     * @return User | null
+     * @return ?User
      */
-    static public function getUserByName(string $user_name): User | null
+    static public function getUserByName(string $user_name): ?User
     {
         $user = User::where('name', $user_name)->first();
 
@@ -63,40 +88,5 @@ class User extends Authenticatable
         }
 
         return $user;
-    }
-
-    static public function getUserWithProfileById(string $id)
-    {
-        $user_with_profile = DB::table('users', 'U')
-        ->select([
-            'U.id as id',
-            'U.name as name',
-            'U.email as email',
-            'U.language as language',
-            'P.display_name as display_name',
-            'P.body as profile_body',
-            'P.icon_url as icon_url',
-        ])
-        ->where('U.id', '=', $id)
-        ->join('user_profiles as P', 'U.id', '=', 'P.user_id')
-        ->first();
-
-        return $user_with_profile;
-    }
-
-    /**
-     * `followings` テーブルとの関連
-     */
-    public function following()
-    {
-        return $this->hasMany(Following::class);
-    }
-
-    /**
-     * `posts` テーブルとの関連
-     */
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
     }
 }

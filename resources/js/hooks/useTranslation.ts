@@ -1,19 +1,15 @@
 import { SharedProps } from '@/@types';
 import { usePage } from '@inertiajs/react';
+import useSharedProps from './use-shared-props';
 
 type Namespace<T = string> = Record<string, T>;
 
-type TranslationData = Record<string, (Namespace<Namespace> | Namespace<string> | string)>;
-
-export interface TranslationProps {
-    data: TranslationData;
-    locale: string;
-}
+export type TranslationData = Record<string, (Namespace<Namespace> | Namespace<string> | string)>;
 
 type TranslationParams = Record<string, string | number>;
 
 export default () => {
-    const { translation: { data: translationData, locale } } = usePage<SharedProps>().props;
+    const { translationData, translationLocale: locale } = useSharedProps();
 
     /**
      * サーバから取得した翻訳テキストを返す（ロケールの判別はサーバで行なう）。キーが見つからない場合は空文字を返す。
@@ -24,8 +20,15 @@ export default () => {
      */
     function get(key: string, params: TranslationParams = {}, delimiter: string = '.'): string {
         const splittedKey = !delimiter ? [key] : key.split(delimiter);
+
+        if (translationData === null) {
+            console.error(`翻訳エラー: 翻訳データが正常に読み込めませんでした。`);
+            return '';
+        }
+
         let currentValue: TranslationData | Namespace<Namespace> | Namespace<string> | string = translationData;
         let text = '';
+
         for (let i = 0; i <= splittedKey.length; i++) {
             if (typeof currentValue === 'string') {
                 text = currentValue;
@@ -33,15 +36,18 @@ export default () => {
                 currentValue = currentValue[splittedKey[i]];
             }
         }
+
         // 翻訳テキストが取得できなかった場合
         if (!text) {
             console.error(`翻訳エラー: ロケール「${locale}」キー「${key}」の翻訳テキストが未定義です。フロントエンド用の翻訳ファイルをチェックしてください。`);
             text = key;
         }
+
         // プレースホルダにパラメータを代入
         for (const param in params) {
             text = text.replace(new RegExp(`:${param}`, 'g'), String(params[param]));
         }
+
         return text;
     }
 

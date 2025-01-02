@@ -1,22 +1,22 @@
 <?php
 
-namespace App\DTO;
+namespace App\Services\DTO;
 
 class FollowingDTO
 {
-    private $user_name;
-    private $followed_user_name;
-    private $followed_user_display_name;
-    private $followed_user_icon_url;
-    private $approved;
-    private $muted;
-    private $created_at;
+    private string $user_name;
+    private string $followed_user_name;
+    private ?string $followed_user_display_name;
+    private ?string $followed_user_icon_url;
+    private bool $approved;
+    private bool $muted;
+    private string $created_at;
 
     public function __construct(
         string $user_name,
         string $followed_user_name,
-        string $followed_user_display_name,
-        string $followed_user_icon_url,
+        ?string $followed_user_display_name,
+        ?string $followed_user_icon_url,
         bool $approved,
         bool $muted,
         string $created_at
@@ -31,13 +31,15 @@ class FollowingDTO
         $this->created_at = $created_at;
     }
 
-    static public function createFromFollowingWithUserData($following)
+    static public function fromFollowingWithUserData($following): self
     {
+        // throw new \Exception($following);
+
         $dto = new self(
-            $following->user_name,
-            $following->followed_user_name,
-            $following->followed_user_display_name,
-            $following->followed_user_icon_url,
+            $following->user->name,
+            $following->followedUser->name,
+            $following->followedUserProfile->display_name,
+            $following->followedUserProfile->icon_url,
             $following->approved,
             $following->muted,
             $following->created_at
@@ -46,7 +48,7 @@ class FollowingDTO
         return $dto;
     }
 
-    public function toArrayForClient()
+    public function toArrayForClient(): array
     {
         $approved = $this->approved;
 

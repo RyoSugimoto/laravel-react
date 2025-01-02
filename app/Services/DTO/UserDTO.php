@@ -1,6 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\Services\DTO;
+
+use App\Services\Repositories\UserWithProfile;
 
 class UserDTO
 {
@@ -31,7 +33,7 @@ class UserDTO
         $this->icon_url = $icon_url;
     }
 
-    static public function createFromUserWithProfile($user_with_profile)
+    static public function fromUserWithProfile(UserWithProfile $user_with_profile): self
     {
         $dto = new self(
             $user_with_profile->name,
@@ -46,7 +48,7 @@ class UserDTO
         return $dto;
     }
 
-    public function toArrayForClient()
+    public function toArrayForClient(): array
     {
         $data = [
             'name' => $this->name,

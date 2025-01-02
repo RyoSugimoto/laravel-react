@@ -2,9 +2,12 @@ import { usePage } from '@inertiajs/react';
 import { SharedProps } from '@/@types';
 
 const useSharedProps = () => {
-    const sharedProps = usePage<SharedProps>().props;
+    const { shared, ...props } = usePage<SharedProps>().props;
 
-    return sharedProps;
+    return {
+        ...shared,
+        ...props,
+    };
 }
 
 export default useSharedProps;
