@@ -6,12 +6,12 @@ class SharedPropsDTO
 {
     private ?array $status;
     private ?array $translation;
-    private array $user;
+    private ?array $user;
 
     public function __construct(
-        $status,
-        $translation,
-        $user
+        ?array $status,
+        ?array $translation,
+        ?array $user
     )
     {
         $this->status = $status;
@@ -19,16 +19,16 @@ class SharedPropsDTO
         $this->user = $user;
     }
 
-    static public function fromDTO(
-        StatusDTO $status_dto,
-        TranslationDTO $translation_dto,
-        UserDTO $user_dto
+    static public function fromDto(
+        ?StatusDTO $status_dto,
+        ?TranslationDTO $translation_dto,
+        ?UserDTO $user_dto
     ): self
     {
         $object = new self(
-            $status_dto->toArrayForClient(),
-            $translation_dto->toArrayForClient(),
-            $user_dto->toArrayForAuthClient()
+            $status_dto?->toArrayForClient(),
+            $translation_dto?->toArrayForClient(),
+            $user_dto?->toArrayForAuthClient()
         );
 
         return $object;

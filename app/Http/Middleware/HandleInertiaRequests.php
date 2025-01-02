@@ -43,17 +43,21 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $locale = App::getLocale();
-        $auth_user = Auth::user();
 
-        $user_with_profile = UserWithProfile::fromUserId($auth_user->id);
-        $user_dto = UserDTO::fromUserWithProfile($user_with_profile);
-
-        $shared_data = SharedPropsDTO::fromDTO(
+        $shared_data = SharedPropsDTO::fromDto(
             StatusDTO::fromSession(),
             TranslationDTO::fromLocale($locale),
-            $user_dto
+            Auth::check() ? $this->createUserDtoById(Auth::user()->id) : null
         )->toWrappedArrayForClient();
 
         return array_merge(parent::share($request), $shared_data);
+    }
+
+    protected function createUserDtoById($user_id)
+    {
+        $user_with_profile = UserWithProfile::fromUserId($user_id);
+        $user_dto = UserDTO::fromUserWithProfile($user_with_profile);
+
+        return $user_dto;
     }
 }
