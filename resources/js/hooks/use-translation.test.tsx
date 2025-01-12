@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import useTranslation from './useTranslation';
+import useTranslation from './use-translation';
 
 const locale = 'ja';
 const translationData = {

@@ -1,8 +1,10 @@
 export type Post = {
     id: string;
-    createdAt: string;
     body: string;
-    user: string;
+    createdAt: string;
+    userName: string;
+    userDisplayName: string | null;
+    userIconUrl: string | null;
 };
 
 export default Post;

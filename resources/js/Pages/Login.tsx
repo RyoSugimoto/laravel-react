@@ -1,8 +1,8 @@
-import useStatus from '@/hooks/useStatus';
-import useTranslation from '@/hooks/useTranslation';
+import useStatus from '@/hooks/use-status';
+import useTranslation from '@/hooks/use-translation';
 import Layout from '@/layouts/welcome';
 import Container from '@/components/base/atoms/Container';
-import { LoginForm } from "@/components/auth";
+import { LoginForm } from '@/components/auth';
 import { ChevronRight as Right } from 'lucide-react';
 import {
     Card,

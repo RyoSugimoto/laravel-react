@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { useForm } from '@inertiajs/react';
-import useTranslation from '@/hooks/useTranslation';
+import useTranslation from '@/hooks/use-translation';
 import { Mail } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

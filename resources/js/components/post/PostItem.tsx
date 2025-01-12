@@ -1,8 +1,8 @@
 import type { Post } from '@/@types';
-import { router } from '@inertiajs/react';
-import useTranslation from "@/hooks/useTranslation";
-import { ChevronRight as Right, Trash } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { router, Link } from '@inertiajs/react';
+import useTranslation from '@/hooks/use-translation';
+import { ChevronRight as Right, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
@@ -19,6 +19,15 @@ type PostItemProps = {
 export default ({ post }: PostItemProps) => {
     const { __ } = useTranslation();
 
+    const {
+        id,
+        body,
+        createdAt,
+        userName,
+        userDisplayName,
+        userIconUrl
+    } = post;
+
     function handleDelete() {
         if (confirm(__('postDeleteConfirm'))) {
             router.delete(`/posts/${post.id}`, {
@@ -31,35 +40,34 @@ export default ({ post }: PostItemProps) => {
         <Card className="border-border">
             <CardHeader>
                 <div
-                    className="flex flex-wrap justify-between items-center"
+                    className="flex flex-wrap justify-between"
                 >
-                    <div
+                    {userIconUrl !== null && (
+                        <span>
+                            <img
+                                src={userIconUrl}
+                                alt=""
+                            />
+                        </span>
+                    )}
+                    <span
                         className="basis-1/2 grow-1"
-                    >{post.user}</div>
-                    <div
+                    >{userDisplayName} {userName}</span>
+                    <span
                         aria-label={__('postCreatedAt')}
                         className="text-sm basis-auto shrink-1"
                     >
-                        {post.createdAt}
-                    </div>
+                        {createdAt}
+                    </span>
                 </div>
             </CardHeader>
             <CardContent>
-                <div>{post.body}</div>
+                <div>{body}</div>
             </CardContent>
             <CardFooter
                 className="flex gap-2"
             >
-                <Button
-                    type="button"
-                    size="sm"
-                    onClick={() => {
-                        router.get(`/posts/${post.id}`);
-                    }}
-                >
-                    <Right />
-                    {__('readMore')}
-                </Button>
+                <Link href={`/posts/${id}`}>{__('readMore')}</Link>
                 <Button
                     type="button"
                     variant="outline"

@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from '@/hooks/use-translation';
 import { useForm } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,6 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-
 
 type PostCreationFormProps = {
     userName: string;
@@ -30,8 +29,10 @@ export default ({ userName }: PostCreationFormProps) => {
 
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
+
         post('/posts', {
-            onSuccess: () => {
+            onSuccess: (data) => {
+                console.log(data);
                 reset('body');
             }
         });

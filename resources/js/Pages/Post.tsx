@@ -1,10 +1,10 @@
-import type { Post } from "@/@types";
+import type { Post } from '@/@types';
 import Layout from '@/layouts/default';
-import Container from "@/components/base/atoms/Container";
-import { router, Link } from '@inertiajs/react';
-import useTranslation from "@/hooks/useTranslation";
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import Container from '@/components/base/atoms/Container';
+import { router } from '@inertiajs/react';
+import useTranslation from '@/hooks/use-translation';
+import { Button } from '@/components/ui/button';
+import { Trash } from 'lucide-react';
 
 type PostProps = {
     post: Post;
@@ -24,7 +24,7 @@ export default ({ post }: PostProps) => {
             <article>
                 <header>
                     <h1>{}</h1>
-                    <div>{post.user}</div>
+                    <div>{post.userName}</div>
                     <div>{post.createdAt}</div>
                 </header>
                 <div>

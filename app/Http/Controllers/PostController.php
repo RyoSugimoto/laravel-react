@@ -2,54 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Facades\{
+    GetPostServiceFacade,
+    CreatePostServiceFacade
+};
 use App\Models\Post;
-use App\Models\User;
-use App\Services\DTO\PostDTO;
-use Illuminate\support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     /**
-     * ホーム画面
-     */
-    public function index()
-    {
-        $user = Auth::user();
-
-        $posts = Post::where('user_id', $user->id)
-        ->with('user:id,name')
-        ->orderBy('created_at', 'desc')
-        ->get();
-
-        $posts_data = $posts->map(function ($post)
-        {
-            $dto = new PostDTO($post);
-            return $dto->get();
-        });
-
-        return inertia('Dashboard', [
-            'name' => $user?->name,
-            'email' => $user?->email,
-            'language' => $user?->language ?? '',
-            'posts' => $posts_data,
-        ]);
-    }
-
-    /**
      * 投稿ページ
      */
-    public function show(string $id)
+    public function show(string $post_id)
     {
         try {
-            $post = Post::findOrFail($id);
-            $dto = new PostDTO($post);
-            $data = $dto->get();
+            $post = GetPostServiceFacade::getPostById($post_id);
+
             return inertia('Post', [
-                'post' => $data,
+                'post' => $post,
             ]);
         } catch(\Exception $e) {
-            abort(404);
+            abort(404, $e->getMessage());
         }
     }
 
@@ -59,24 +33,18 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
-        $post = new Post();
-
-        $name = $request->name;
-
         try {
-            $user = User::getUserByName($name);
-            $post->user_id = $user->id;
-            $post->body = $request->body;
-            $post->save();
+            CreatePostServiceFacade::createPostByUserName(
+                $request->name,
+                $request->body,
+            );
         } catch(\Exception $e) {
-            return back()
-            ->setStatusCode(400)
+            abort(400, $e->getMessage());
+            return back(400)
             ->with([
                 'status' => __('status.postCreateError'),
             ]);
         }
-
-        return back();
     }
 
     /**

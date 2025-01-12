@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { router } from '@inertiajs/react';
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from '@/hooks/use-translation';
 import { Label } from '@/components/ui/label';
 import {
     Select,

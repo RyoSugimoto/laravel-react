@@ -1,10 +1,11 @@
 import type { SharedProps } from '@/@types';
+import useSharedProps from './use-shared-props';
 import { useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
 import { useToast } from '@/hooks/use-toast';
 
 export default () => {
-    const { status } = usePage<SharedProps>().props;
+    const { status } = useSharedProps();
 
     if (!status) {
         return;

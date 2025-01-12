@@ -2,14 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Repositories\UserWithProfile;
+use App\Services\SharedData\GetSharedDataService
+;
 use App\Services\DTO\StatusDTO;
 use App\Services\DTO\SharedPropsDTO;
 use App\Services\DTO\TranslationDTO;
-use App\Services\DTO\UserDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -42,22 +41,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $locale = App::getLocale();
+        $shared = new GetSharedDataService();
+        $shared_data = $shared->getSharedData();
 
-        $shared_data = SharedPropsDTO::fromDto(
-            StatusDTO::fromSession(),
-            TranslationDTO::fromLocale($locale),
-            Auth::check() ? $this->createUserDtoById(Auth::user()->id) : null
-        )->toWrappedArrayForClient();
-
-        return array_merge(parent::share($request), $shared_data);
-    }
-
-    protected function createUserDtoById($user_id)
-    {
-        $user_with_profile = UserWithProfile::fromUserId($user_id);
-        $user_dto = UserDTO::fromUserWithProfile($user_with_profile);
-
-        return $user_dto;
+        return array_merge(parent::share($request), [
+            'shared' => $shared_data,
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 import { router } from '@inertiajs/react';
-import useStatus from '@/hooks/useStatus';
-import useTranslation from '@/hooks/useTranslation';
+import useStatus from '@/hooks/use-status';
+import useTranslation from '@/hooks/use-translation';
 import Layout from '@/layouts/welcome';
 import Container from '@/components/base/atoms/Container';
 import { FormInput, Sparkles } from 'lucide-react';

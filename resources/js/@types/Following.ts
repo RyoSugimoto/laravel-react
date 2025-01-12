@@ -1,5 +1,4 @@
 type Following = {
-    userName: string;
     followedUserName: string;
     followedUserDisplayName?: string;
     followedUserIconUrl?: string;

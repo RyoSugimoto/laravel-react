@@ -1,11 +1,11 @@
 import { v4 } from 'uuid';
 import { useForm } from '@inertiajs/react';
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from '@/hooks/use-translation';
 import LayoutNoFrame from '@/layouts/no-frame';
 import { Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,

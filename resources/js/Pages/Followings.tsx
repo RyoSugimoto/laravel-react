@@ -1,22 +1,35 @@
-import type { Following } from '@/@types';
+import type { AuthenticatedUser, Following } from '@/@types';
 import Layout from '@/layouts/home';
 import Container from '@/components/base/atoms/Container';
-import useTranslation from '@/hooks/useTranslation';
+import useTranslation from '@/hooks/use-translation';
 import Link from '@/components/base/atoms/Link';
 import { Button } from '@/components/ui/button';
 
 type FollowingProps = {
+    user: AuthenticatedUser;
     followings: Following[];
 };
 
-export default ({ followings }: FollowingProps) => {
+export default ({ followings, user }: FollowingProps) => {
     const { __ } = useTranslation();
 
-    return <Layout>
+    const { name, displayName } = user;
+
+    return <Layout
+        name={name}
+        displayName={displayName}
+    >
         <Container>
-            <h1>{__('Pages.Following.followingUsers')}</h1>
+            <h1>{__('Pages.Followings.followingUsers')}</h1>
             <div className="gap-2 grid">
-                {followings.map(({followedUserName, approved, muted, createdAt, followedUserDisplayName, followedUserIconUrl}, index) => {
+                {followings.map(({
+                    followedUserName,
+                    approved,
+                    muted,
+                    createdAt,
+                    followedUserDisplayName,
+                    followedUserIconUrl
+                }, index) => {
                     return <div
                         key={index}
                         className="gap-2 flex border p-2 rounded-sm"

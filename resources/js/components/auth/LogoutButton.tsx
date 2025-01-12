@@ -1,7 +1,7 @@
-import { useForm } from "@inertiajs/react";
-import useTranslation from "@/hooks/useTranslation";
-import { LogOut } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useForm } from '@inertiajs/react';
+import useTranslation from '@/hooks/use-translation';
+import { LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default () => {
     const { __ } = useTranslation();

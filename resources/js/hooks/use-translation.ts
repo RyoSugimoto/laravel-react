@@ -1,5 +1,3 @@
-import { SharedProps } from '@/@types';
-import { usePage } from '@inertiajs/react';
 import useSharedProps from './use-shared-props';
 
 type Namespace<T = string> = Record<string, T>;

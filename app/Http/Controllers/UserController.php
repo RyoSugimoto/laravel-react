@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Following;
-use App\Services\DTO\FollowingDTO;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Facades\{
+    GetPostServiceFacade,
+    GetUserServiceFacade
+};
 
 class UserController extends Controller
 {
-    public function followings()
+    public function show(string $user_name)
     {
-        $login_user = Auth::user();
+        $user = GetUserServiceFacade::getUserByName($user_name, ['id', 'email', 'language']);
+        $posts = GetPostServiceFacade::getPostsByUserName($user_name);
 
-        $followings_with_user_data = Following::getFollowingsWithUserDataByUserId($login_user->id);
-
-        $followings = $followings_with_user_data->map(function ($following_with_user_data)
-        {
-            $data = FollowingDTO::fromFollowingWithUserData($following_with_user_data)->toArrayForClient();
-
-            return $data;
-        });
-
-        return inertia('Followings', [
-            'followings' => $followings,
+        return inertia('User', [
+            'user' => $user,
+            'posts' => $posts,
         ]);
     }
 }

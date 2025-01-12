@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import useTranslation from "@/hooks/useTranslation";
+import useTranslation from '@/hooks/use-translation';
 import { Eye } from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 import LanguageSwitch from '@/components/LanguageSwitch';

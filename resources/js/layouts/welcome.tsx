@@ -1,4 +1,4 @@
-import useTranslation from '@/hooks/useTranslation';
+import useTranslation from '@/hooks/use-translation';
 import Layout from './default';
 import Container from '@/components/base/atoms/Container';
 

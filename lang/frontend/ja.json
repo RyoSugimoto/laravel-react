@@ -61,6 +61,11 @@
         "welcome": {
             "copy": "ようこそ。",
             "lead": "ログインして親しい人と近況の共有を始めましょう。"
+        },
+        "home": {
+            "home": "ホーム",
+            "followings": "フォロー中のユーザ",
+            "followRequests": "フォローリクエスト"
         }
     },
     "Pages": {
@@ -88,6 +93,9 @@
             "heading": "ダッシュボード",
             "description": "アカウントに関する情報です。",
             "yourPosts": "あなたの投稿"
+        },
+        "Followings": {
+            "followingUsers": "フォロー中のユーザ"
         }
     }
 }

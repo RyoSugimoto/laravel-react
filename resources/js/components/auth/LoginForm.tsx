@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { useState } from 'react';
 import Link from '@/components/base/atoms/Link';
 import { useForm } from '@inertiajs/react';
-import useTranslation from '@/hooks/useTranslation';
+import useTranslation from '@/hooks/use-translation';
 import { LogIn, ChevronRight as Right, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,14 +14,14 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
     Field,
     FieldItem,
     Message,
     Action
 } from '../form';
-import { PasswordResetRequestForm } from "@/components/auth";
+import { PasswordResetRequestForm } from '@/components/auth';
 
 export default () => {
     const { __ } = useTranslation();

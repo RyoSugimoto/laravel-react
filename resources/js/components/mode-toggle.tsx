@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
-import useTranslation from "@/hooks/useTranslation";
-import { Moon, Sun, Settings } from "lucide-react"
+import useTranslation from '@/hooks/use-translation';
+import { Moon, Sun, Settings } from 'lucide-react'
 
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from '@/components/theme-provider';
 
 import { Label } from '@/components/ui/label';
 import {

@@ -1,37 +1,42 @@
-import useTranslation from "@/hooks/useTranslation";
-import useStatus from '@/hooks/useStatus';
+import type { AuthenticatedUser, Post } from '@/@types';
+import useTranslation from '@/hooks/use-translation';
+import useStatus from '@/hooks/use-status';
 import Layout from '@/layouts/home';
-import Container from "@/components/base/atoms/Container";
-import { LogoutButton } from "@/components/auth";
-import PostCreationForm from "@/components/post/PostCreationForm";
-import PostItem from "@/components/post/PostItem";
+import Container from '@/components/base/atoms/Container';
+import PostCreationForm from '@/components/post/PostCreationForm';
+import PostItem from '@/components/post/PostItem';
 import PostList from '@/components/post/PostList';
-import PageHeading from "@/components/PageHeading";
-import SectionHeading from "@/components/SectionHeading";
-import type { Post } from '@/@types';
-import Link from "@/components/base/atoms/Link";
-import useSharedProps from '@/hooks/use-shared-props';
+import SectionHeading from '@/components/SectionHeading';
 
-type DashboardProps = {
+export type DashboardProps = {
+    user: AuthenticatedUser;
     posts: Post[];
 };
 
-export default ({  posts }: DashboardProps) => {
+export default ({ user, posts }: DashboardProps) => {
     const { __ } = useTranslation();
-
-    const { user } = useSharedProps();
 
     useStatus();
 
-    if (!user) return <></>;
+    const {
+        name,
+        email,
+        language,
+        displayName,
+        profile,
+        iconUrl,
+    } = user;
 
-    return <Layout>
+    return <Layout
+        name={name}
+        displayName={displayName}
+    >
         <div className="grid gap-8">
-            {user !== null && <>
+
             <section>
                 <Container>
                     <ul>
-                        <li>{user.profile}</li>
+                        <li>{profile}</li>
                     </ul>
                 </Container>
             </section>
@@ -39,11 +44,10 @@ export default ({  posts }: DashboardProps) => {
             <section>
                 <Container>
                     <PostCreationForm
-                        userName={user.name}
+                        userName={name}
                     />
                 </Container>
             </section>
-            </>}
 
             <section>
                 <Container>

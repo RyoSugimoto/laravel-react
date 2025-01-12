@@ -1,7 +1,7 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren } from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from "@/components/ui/toaster"
-import DisplayOptions from "@/components/DisplayOptions";
+import { Toaster } from '@/components/ui/toaster'
+import DisplayOptions from '@/components/DisplayOptions';
 
 type LayoutProps = PropsWithChildren<{}>;
 

@@ -1,25 +1,35 @@
 <?php
 
-use App\Http\Controllers\GuestController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\{
+    GuestController,
+    AuthUserController,
+    LanguageController,
+    PasswordResetController,
+    PostController,
+    UserController
+};
 use Illuminate\Support\Facades\Route;
 
 Route::controller(UserController::class)
 ->group(function ()
 {
-    Route::get('/followings', 'followings');
+    Route::get('/user/{name}', 'show');
+});
+
+Route::controller(AuthUserController::class)
+->middleware('auth')
+->group(function ()
+{
+    Route::get('/home', 'index')
+    ->name('home');
+
+    Route::get('/followings', 'followings')
+    ->name('followings');
 });
 
 Route::controller(PostController::class)
 ->group(function ()
 {
-    Route::get('/home', 'index')
-    ->name('home')
-    ->middleware('auth');
-
     Route::prefix('/posts')
     ->name('posts.')
     ->group(function ()

@@ -1,12 +1,12 @@
-import { v4 } from "uuid";
-import { useForm } from "@inertiajs/react";
-import useTranslation from "@/hooks/useTranslation";
+import { v4 } from 'uuid';
+import { useForm } from '@inertiajs/react';
+import useTranslation from '@/hooks/use-translation';
 import { ChevronRight as Right } from 'lucide-react';
 import Link from '@/components/base/atoms/Link';
 import { Input } from '@/components/ui/input';
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Check } from 'lucide-react';
 import {
     Field,
     FieldItem,
