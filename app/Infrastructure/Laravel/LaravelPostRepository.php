@@ -110,7 +110,7 @@ class LaravelPostRepository implements PostRepository
         }
     }
 
-    public function deleteRecordWithAuthorizationCheckById(int $post_id): void
+    public function deleteRecordWithAuthorizationCheckById(int $post_id): PostEntity
     {
         $post = Post::find($post_id);
 
@@ -122,21 +122,21 @@ class LaravelPostRepository implements PostRepository
             throw new \Exception('この投稿を削除する権限がありません。');
         }
 
-        $entity = new PostEntity(
-            $post->id,
-            $post->user_id,
-            $post->body,
-            $post->created_at,
-            $post->user->name,
-            $post->userProfile->display_name,
-            $post->userProfile->icon_url,
-        );
-
-        $entity->delete();
-
         try {
 
             $post->delete();
+
+            $entity = new PostEntity(
+                $post->id,
+                $post->user_id,
+                $post->body,
+                $post->created_at,
+                $post->user->name,
+                $post->userProfile->display_name,
+                $post->userProfile->icon_url,
+            );
+
+            return $entity;
 
         } catch(\Exception $e) {
 

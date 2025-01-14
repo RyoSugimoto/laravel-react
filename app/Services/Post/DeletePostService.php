@@ -17,6 +17,8 @@ class DeletePostService
 
     public function deletePostWithAuthorizationCheckById(int $post_id)
     {
-        $this->repository->deleteRecordWithAuthorizationCheckById($post_id);
+        $entity = $this->repository->deleteRecordWithAuthorizationCheckById($post_id);
+
+        $entity->delete();
     }
 }
