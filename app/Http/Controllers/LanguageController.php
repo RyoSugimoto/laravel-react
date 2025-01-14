@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use App\Services\LanguageService as Lang;
-
-use Inertia\Inertia;
+use App\Services\SharedData\StatusService;
 
 class LanguageController extends Controller
 {
@@ -31,8 +30,8 @@ class LanguageController extends Controller
             'locale_label' => $locale_label,
         ]);
 
-        session()->flash('status', $flash_message);
+        StatusService::setStatus($flash_message);
 
-        return Inertia::location(url()->previous());
+        return back();
     }
 }
