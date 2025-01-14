@@ -12,7 +12,10 @@ use App\Models\{
     User,
     Post
 };
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{
+    Auth,
+    DB
+};
 
 class LaravelPostRepository implements PostRepository
 {
@@ -104,6 +107,41 @@ class LaravelPostRepository implements PostRepository
             return $entity;
         } catch(\Exception $e) {
             throw new \Exception($e->getMessage());
+        }
+    }
+
+    public function deleteRecordWithAuthorizationCheckById(int $post_id): void
+    {
+        $post = Post::find($post_id);
+
+        if (is_null($post)) {
+            throw new \Exception('削除対象の投稿が見つかりません。');
+        }
+
+        if (Auth::user()->cannot('delete', $post)) {
+            throw new \Exception('この投稿を削除する権限がありません。');
+        }
+
+        $entity = new PostEntity(
+            $post->id,
+            $post->user_id,
+            $post->body,
+            $post->created_at,
+            $post->user->name,
+            $post->userProfile->display_name,
+            $post->userProfile->icon_url,
+        );
+
+        $entity->delete();
+
+        try {
+
+            $post->delete();
+
+        } catch(\Exception $e) {
+
+            throw new \Exception($e->getMessage());
+
         }
     }
 }

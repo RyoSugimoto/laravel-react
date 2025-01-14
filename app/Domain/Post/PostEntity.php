@@ -44,4 +44,12 @@ class PostEntity
     public function getUserIconUrl() {
         return $this->user_icon_url;
     }
+
+    /**
+     * 投稿が削除される際に実行する処理
+     */
+    public function delete()
+    {
+        //
+    }
 }

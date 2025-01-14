@@ -6,7 +6,7 @@ use App\Services\Facades\{
     GetPostServiceFacade,
     CreatePostServiceFacade
 };
-use App\Models\Post;
+use App\Services\Post\DeletePostService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -34,16 +34,16 @@ class PostController extends Controller
     public function create(Request $request)
     {
         try {
+
             CreatePostServiceFacade::createPostByUserName(
                 $request->name,
                 $request->body,
             );
+
         } catch(\Exception $e) {
+
             abort(400, $e->getMessage());
-            return back(400)
-            ->with([
-                'status' => __('status.postCreateError'),
-            ]);
+
         }
     }
 
@@ -51,30 +51,24 @@ class PostController extends Controller
      * 投稿を削除する。
      * @param string $id 対象の `Post` のID
      */
-    public function destroy(string $id)
+    public function destroy(string $post_id)
     {
-        $post = Post::find($id);
 
-        if (!$post) {
-            return back()
-            ->setStatusCode(400)
-            ->with([
-                'status' => __('status.post_delete_invalid'),
-            ]);
-        }
+        $delete_service = app()->make(DeletePostService::class);
 
         try {
-            $post->delete();
+
+            $delete_service->deletePostWithAuthorizationCheckById($post_id);
+
             return to_route('home')
             ->with([
                 'status' => __('status.post_deleted'),
             ]);
+
         } catch(\Exception $e) {
-            return back()
-            ->setStatusCode(400)
-            ->with([
-                'status' => __('status.post_delete_error'),
-            ]);
+
+            abort(403, $e->getMessage());
+
         }
     }
 }

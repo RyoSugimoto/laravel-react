@@ -12,6 +12,7 @@ use App\Services\{
     User\GetUserService,
     Post\GetPostService,
     Post\CreatePostService,
+    Post\DeletePostService,
 };
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +47,12 @@ class AppServiceProvider extends ServiceProvider
         {
             $repository = new LaravelPostRepository();
             return new CreatePostService($repository);
+        });
+
+        app()->bind(DeletePostService::class, function ()
+        {
+            $repository = new LaravelPostRepository();
+            return new DeletePostService($repository);
         });
     }
 
