@@ -48,6 +48,22 @@ class GetPostService
         return $posts;
     }
 
+    public function getViewablePostsByUserId(int $user_id)
+    {
+        $entities = $this->repository->findViewableEntitiesByUserId($user_id);
+
+        $entities = $this->sortEntities($entities);
+
+        $posts = array_map(function ($entity)
+        {
+            $dto = PostDTO::fromEntity($entity);
+
+            return $dto->toArray();
+        }, $entities);
+
+        return $posts;
+    }
+
     /**
      * @param array<int, PostEntity>
      * @return array<int, PostEntity>

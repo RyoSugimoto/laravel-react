@@ -8,7 +8,8 @@ use App\Domain\Post\
     PostRepository
 };
 use App\Models\{
-    Post
+    Post,
+    Following
 };
 use Illuminate\Support\Facades\{
     Auth,
@@ -17,6 +18,42 @@ use Illuminate\Support\Facades\{
 
 class LaravelPostRepository implements PostRepository
 {
+    public function findViewableEntitiesByUserId(int $user_id): array
+    {
+        $followings = Following::where('user_id', '=', $user_id)
+        ->where('approved', '=', true)
+        ->where('muted', '=', false)
+        ->get();
+
+        $followingIds = $followings->map(fn ($following) => $following->followed_user_id)->toArray();
+
+        $followingIdsAndUserId = array_merge($followingIds, [$user_id]);
+
+        $posts = Post::whereIn('user_id', $followingIdsAndUserId)
+        ->with([
+            'user',
+            'userProfile',
+        ])
+        ->get();
+
+        $post_entities = $posts->map(function ($post)
+        {
+            $entity = new PostEntity(
+                $post->id,
+                $post->user_id,
+                $post->body,
+                $post->created_at,
+                $post->user->name,
+                $post->userProfile->display_name,
+                $post->userProfile->icon_url
+            );
+
+            return $entity;
+        })->toArray();
+
+        return $post_entities;
+    }
+
     public function findEntityById(int $id): PostEntity
     {
         $data = DB::table('posts', 'ps')

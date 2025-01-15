@@ -37,7 +37,8 @@ class AuthUserController extends Controller
 
         $user = GetUserServiceFacade::getUserById($auth_user->id);
 
-        $posts = GetPostServiceFacade::getPostsByUserName($auth_user->name);
+        // $posts = GetPostServiceFacade::getPostsByUserName($auth_user->name);
+        $posts = GetPostServiceFacade::getViewablePostsByUserId($auth_user->id);
 
         return inertia('Dashboard', [
             'user' => $user,
