@@ -4,12 +4,10 @@ namespace App\Infrastructure\Laravel;
 
 use App\Domain\Post\
 {
-    PostDTO,
     PostEntity,
     PostRepository
 };
 use App\Models\{
-    User,
     Post
 };
 use Illuminate\Support\Facades\{
@@ -74,43 +72,24 @@ class LaravelPostRepository implements PostRepository
         return $entities->toArray();
     }
 
-    public function createByUserName(string $user_name, string $body): PostEntity
+    public function createRecordByUserId(int $user_id, string $post_body): void
     {
-        $user = User::where('name', '=', $user_name)
-        ->with(['userProfile:user_id,display_name,icon_url'])
-        ->first();
-
-        if (is_null($user)) {
-            throw new \Exception('ユーザが見つかりません。');
-        }
-
-        $user_id = $user->id;
         $new_post = new Post();
         $new_post->user_id = $user_id;
-        $new_post->body = $body;
+        $new_post->body = $post_body;
 
         try {
+
             $new_post->save();
 
-            $dto = new PostDTO(
-                $new_post->id,
-                $new_post->user_id,
-                $new_post->body,
-                $new_post->created_at,
-                $user->name,
-                $user->userProfile->display_name,
-                $user->userProfile->icon_url
-            );
-
-            $entity = $dto->toEntity();
-
-            return $entity;
         } catch(\Exception $e) {
+
             throw new \Exception($e->getMessage());
+
         }
     }
 
-    public function deleteRecordWithAuthorizationCheckById(int $post_id): PostEntity
+    public function deleteRecordWithAuthorizationCheckById(int $post_id): void
     {
         $post = Post::find($post_id);
 
@@ -125,18 +104,6 @@ class LaravelPostRepository implements PostRepository
         try {
 
             $post->delete();
-
-            $entity = new PostEntity(
-                $post->id,
-                $post->user_id,
-                $post->body,
-                $post->created_at,
-                $post->user->name,
-                $post->userProfile->display_name,
-                $post->userProfile->icon_url,
-            );
-
-            return $entity;
 
         } catch(\Exception $e) {
 

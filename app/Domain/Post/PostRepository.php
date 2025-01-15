@@ -11,7 +11,7 @@ interface PostRepository
      */
     public function findEntitiesByUserName(string $user_name): array;
 
-    public function createByUserName(string $user_name, string $body): PostEntity;
+    public function createRecordByUserId(int $user_id, string $body): void;
 
-    public function deleteRecordWithAuthorizationCheckById(int $post_id): PostEntity;
+    public function deleteRecordWithAuthorizationCheckById(int $post_id): void;
 }

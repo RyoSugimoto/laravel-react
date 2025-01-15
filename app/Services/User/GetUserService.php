@@ -41,4 +41,11 @@ class GetUserService
 
         return $dto->toArray($exceptions);
     }
+
+    public function getAuthenticatedUserEntity()
+    {
+        $entity = $this->repository->findAuthenticatedUserEntity();
+
+        return $entity;
+    }
 }

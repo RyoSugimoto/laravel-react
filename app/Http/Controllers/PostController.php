@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Services\Facades\{
     GetPostServiceFacade,
-    CreatePostServiceFacade
+    CreatePostServiceFacade,
+    GetUserServiceFacade,
 };
 use App\Services\Post\DeletePostService;
 use Illuminate\Http\Request;
@@ -34,9 +35,10 @@ class PostController extends Controller
     public function create(Request $request)
     {
         try {
+            $user_entity = GetUserServiceFacade::getAuthenticatedUserEntity();
 
-            CreatePostServiceFacade::createPostByUserName(
-                $request->name,
+            CreatePostServiceFacade::createPostByUserId(
+                $user_entity->getId(),
                 $request->body,
             );
 

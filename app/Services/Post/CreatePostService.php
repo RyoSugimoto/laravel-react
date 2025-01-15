@@ -3,7 +3,6 @@
 namespace App\Services\Post;
 
 use App\Domain\Post\{
-    PostDTO,
     PostRepository
 };
 
@@ -16,10 +15,8 @@ class CreatePostService
         //
     }
 
-    public function createPostByUserName(string $user_name, string $post_body)
+    public function createPostByUserId(int $user_id, string $post_body)
     {
-        $entity = $this->repository->createByUserName($user_name, $post_body);
-
-        return $entity;
+        $this->repository->createRecordByUserId($user_id, $post_body);
     }
 }

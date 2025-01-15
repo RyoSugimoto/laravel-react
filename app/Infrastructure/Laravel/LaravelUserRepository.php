@@ -6,7 +6,10 @@ use App\Domain\User\{
     UserEntity,
     UserRepository,
 };
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\{
+    Auth,
+    DB
+};
 
 class LaravelUserRepository implements UserRepository
 {
@@ -55,6 +58,27 @@ class LaravelUserRepository implements UserRepository
             $result->display_name,
             $result->profile,
             $result->icon_url
+        );
+
+        return $entity;
+    }
+
+    public function findAuthenticatedUserEntity(): ?UserEntity
+    {
+        $user = Auth::user();
+
+        if (is_null($user)) {
+            return null;
+        }
+
+        $entity = new UserEntity(
+            $user->id,
+            $user->name,
+            $user->email,
+            $user->language,
+            $user->userProfile->display_name,
+            $user->userProfile->body,
+            $user->userProfile->icon_url
         );
 
         return $entity;
