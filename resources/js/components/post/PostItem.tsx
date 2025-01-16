@@ -27,7 +27,8 @@ export default ({ post }: PostItemProps) => {
         createdAt,
         userName,
         userDisplayName,
-        userIconUrl
+        userIconUrl,
+        url,
     } = post;
 
     function handleDelete() {
@@ -69,19 +70,25 @@ export default ({ post }: PostItemProps) => {
                     {/* <div>{body}</div> */}
                 </div>
             </CardContent>
-            <CardFooter
-                className="flex gap-2"
-            >
-                <Link href={route('post', [userName, slug])}>{__('readMore')}</Link>
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={ handleDelete }
+            <CardFooter className="gap-2 grid">
+                <div
+                    className="flex gap-2"
                 >
-                    <Trash />
-                    {__('postDeleteButtonLabel')}
-                </Button>
+                    <Link href={route('post', [userName, slug])}>{__('readMore')}</Link>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={ handleDelete }
+                    >
+                        <Trash />
+                        {__('postDeleteButtonLabel')}
+                    </Button>
+                </div>
+                <a
+                    className="text-sm text-neutral-400"
+                    href={url}
+                >{url}</a>
             </CardFooter>
         </Card>
     </article>

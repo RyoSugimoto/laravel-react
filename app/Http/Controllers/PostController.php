@@ -40,6 +40,7 @@ class PostController extends Controller
     public function create(Request $request)
     {
         try {
+
             $user_entity = GetUserServiceFacade::getAuthenticatedUserEntity();
 
             CreatePostServiceFacade::createPostByUserId(

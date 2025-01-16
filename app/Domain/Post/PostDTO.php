@@ -67,6 +67,10 @@ class PostDTO
             'userName' => $this->user_name,
             'userDisplayName' => $this->user_display_name,
             'userIconUrl' => $this->user_icon_url,
+            'url' => route('post', [
+                $this->user_name,
+                $this->slug
+            ]),
         ];
     }
 }

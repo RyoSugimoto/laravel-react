@@ -21,7 +21,6 @@ class LaravelPostRepository implements PostRepository
 {
     public function findEntityBySlug(string $user_name, string $slug): PostEntity
     {
-
         $user = User::where('name', '=', $user_name)->first();
 
         $post = Post::where('user_id', $user->id)
