@@ -25,6 +25,7 @@ class PostFactory extends Factory
             'body' => fake()->realText(),
             'title' => fake()->realText(40),
             'slug' => Str::slug(fake()->uuid()),
+            'created_at' => fake()->date(),
         ];
     }
 }
