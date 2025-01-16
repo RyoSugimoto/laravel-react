@@ -6,6 +6,7 @@
     @viteReactRefresh
     @vite('resources/js/app.tsx')
     @inertiaHead
+    @routes
   </head>
   <body>
     @inertia
