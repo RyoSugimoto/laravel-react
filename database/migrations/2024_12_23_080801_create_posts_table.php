@@ -21,6 +21,8 @@ return new class extends Migration
             ->on('users')
             ->onDelete('cascade');
 
+            $table->string('slug');
+            $table->string('title');
             $table->text('body');
         });
     }

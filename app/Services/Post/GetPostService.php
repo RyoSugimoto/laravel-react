@@ -17,6 +17,15 @@ class GetPostService
         //
     }
 
+    public function getPostBySlug(string $user_name, string $slug)
+    {
+        $entity = $this->repository->findEntityBySlug($user_name, $slug);
+
+        $dto = PostDTO::fromEntity($entity);
+
+        return $dto->toArray();
+    }
+
     /**
      * @return array<int, mixed>
      */

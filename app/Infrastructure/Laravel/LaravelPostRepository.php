@@ -9,7 +9,8 @@ use App\Domain\Post\
 };
 use App\Models\{
     Post,
-    Following
+    Following,
+    User
 };
 use Illuminate\Support\Facades\{
     Auth,
@@ -18,6 +19,30 @@ use Illuminate\Support\Facades\{
 
 class LaravelPostRepository implements PostRepository
 {
+    public function findEntityBySlug(string $user_name, string $slug): PostEntity
+    {
+
+        $user = User::where('name', '=', $user_name)->first();
+
+        $post = Post::where('user_id', $user->id)
+        ->where('slug', $slug)
+        ->first();
+
+        $entity = new PostEntity(
+            $post->id,
+            $post->user_id,
+            $post->title,
+            $post->slug,
+            $post->body,
+            $post->created_at,
+            $user->name,
+            $user->userProfile->display_name,
+            $user->userProfile->icon_url
+        );
+
+        return $entity;
+    }
+
     public function findViewableEntitiesByUserId(int $user_id): array
     {
         $followings = Following::where('user_id', '=', $user_id)
@@ -41,6 +66,8 @@ class LaravelPostRepository implements PostRepository
             $entity = new PostEntity(
                 $post->id,
                 $post->user_id,
+                $post->title,
+                $post->slug,
                 $post->body,
                 $post->created_at,
                 $post->user->name,
@@ -57,7 +84,7 @@ class LaravelPostRepository implements PostRepository
     public function findEntityById(int $id): PostEntity
     {
         $data = DB::table('posts', 'ps')
-        ->selectRaw('ps.id as post_id, ps.body as post_body, ps.created_at as post_created_at, ps.user_id as post_user_id, u.id as user_id, u.name as user_name, p.user_id, p.display_name as user_display_name, p.icon_url as user_icon_url')
+        ->selectRaw('ps.id as post_id, ps.title as post_title, ps.slug as post_slug, ps.body as post_body, ps.created_at as post_created_at, ps.user_id as post_user_id, u.id as user_id, u.name as user_name, p.user_id, p.display_name as user_display_name, p.icon_url as user_icon_url')
         ->where('ps.id', '=', $id)
         ->leftJoin('users as u', 'u.id', '=', 'ps.user_id')
         ->leftJoin('user_profiles as p', 'p.user_id', '=', 'ps.user_id')
@@ -70,6 +97,8 @@ class LaravelPostRepository implements PostRepository
         $entity = new PostEntity(
             $data->post_id,
             $data->post_user_id,
+            $data->post_title,
+            $data->post_slug,
             $data->post_body,
             $data->post_created_at,
             $data->user_name,
@@ -86,7 +115,7 @@ class LaravelPostRepository implements PostRepository
     public function findEntitiesByUserName(string $user_name): array
     {
         $data = DB::table('users', 'u')
-        ->selectRaw('ps.id as post_id, ps.body as post_body, ps.created_at as post_created_at, ps.user_id as post_user_id, u.id as user_id, u.name as user_name, p.user_id, p.display_name as user_display_name, p.icon_url as user_icon_url')
+        ->selectRaw('ps.id as post_id, ps.title as post_title, ps.slug as post_slug, ps.body as post_body, ps.created_at as post_created_at, ps.user_id as post_user_id, u.id as user_id, u.name as user_name, p.user_id, p.display_name as user_display_name, p.icon_url as user_icon_url')
         ->where('u.name', '=', $user_name)
         ->leftJoin('user_profiles as p', 'p.user_id', '=', 'u.id')
         ->join('posts as ps', 'u.id', '=', 'ps.user_id')
@@ -98,6 +127,8 @@ class LaravelPostRepository implements PostRepository
             return new PostEntity(
                 $data_item->post_id,
                 $data_item->post_user_id,
+                $data_item->post_title,
+                $data_item->post_slug,
                 $data_item->post_body,
                 $data_item->post_created_at,
                 $data_item->user_name,

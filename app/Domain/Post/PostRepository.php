@@ -6,6 +6,8 @@ interface PostRepository
 {
     public function findEntityById(int $id): PostEntity;
 
+    public function findEntityBySlug(string $user_name, string $slug): PostEntity;
+
     /**
      * @return array<int, PostEntity>
      */

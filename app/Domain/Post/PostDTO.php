@@ -7,6 +7,8 @@ class PostDTO
     public function __construct(
         private int $id,
         private int $user_id,
+        private string $title,
+        private string $slug,
         private string $body,
         private string $created_at,
         private string $user_name,
@@ -22,6 +24,8 @@ class PostDTO
         $dto = new self(
             $entity->getId(),
             $entity->getUserId(),
+            $entity->getTitle(),
+            $entity->getSlug(),
             $entity->getBody(),
             $entity->getCreatedAt(),
             $entity->getUserName(),
@@ -37,6 +41,8 @@ class PostDTO
         $entity = new PostEntity(
             $this->id,
             $this->user_id,
+            $this->title,
+            $this->slug,
             $this->body,
             $this->created_at,
             $this->user_name,
@@ -54,6 +60,8 @@ class PostDTO
     {
         return [
             'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
             'body' => $this->body,
             'createdAt' => $this->created_at,
             'userName' => $this->user_name,

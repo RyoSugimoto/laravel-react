@@ -7,6 +7,8 @@ class PostEntity
     public function __construct(
         private int $id,
         private int $user_id,
+        private string $title,
+        private string $slug,
         private string $body,
         private string $created_at,
         private string $user_name,
@@ -23,6 +25,14 @@ class PostEntity
 
     public function getUserId() {
         return $this->user_id;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getSlug() {
+        return $this->slug;
     }
 
     public function getBody() {

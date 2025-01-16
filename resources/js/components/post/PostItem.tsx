@@ -21,6 +21,8 @@ export default ({ post }: PostItemProps) => {
 
     const {
         id,
+        title,
+        slug,
         body,
         createdAt,
         userName,
@@ -62,12 +64,15 @@ export default ({ post }: PostItemProps) => {
                 </div>
             </CardHeader>
             <CardContent>
-                <div>{body}</div>
+                <div className="grid gap-4">
+                    <h2 className="text-lg font-bold">{title}</h2>
+                    {/* <div>{body}</div> */}
+                </div>
             </CardContent>
             <CardFooter
                 className="flex gap-2"
             >
-                <Link href={route('post', [userName, id])}>{__('readMore')}</Link>
+                <Link href={route('post', [userName, slug])}>{__('readMore')}</Link>
                 <Button
                     type="button"
                     variant="outline"

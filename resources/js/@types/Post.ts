@@ -1,5 +1,7 @@
 export type Post = {
     id: string;
+    title: string;
+    slug: string;
     body: string;
     createdAt: string;
     userName: string;
