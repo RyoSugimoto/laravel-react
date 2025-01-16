@@ -1,4 +1,5 @@
 import type { AuthenticatedUser, Following } from '@/@types';
+import { router } from '@inertiajs/react';
 import Layout from '@/layouts/home';
 import Container from '@/components/base/atoms/Container';
 import useTranslation from '@/hooks/use-translation';
@@ -51,8 +52,18 @@ export default ({ followings, user }: FollowingProps) => {
                             <li>{approved ? __('followingNow') : __('waitingApprovement')}</li>
                         </ul>
                         <div>
-                            <Button size="sm">{__('unfollow')}</Button>
-                            <Button size="sm">{__('toMute')}</Button>
+                            <Button size="sm"
+                                type="button"
+                                onClick={ () => {
+                                    router.put(`/followings/unfollow/${followedUserName}`);
+                                }}
+                            >{__('unfollow')}</Button>
+                            <Button size="sm"
+                                type="button"
+                                onClick={ () => {
+                                    router.put(`/followings/mute/${followedUserName}`);
+                                }}
+                            >{__('toMute')}</Button>
                         </div>
                     </div>
                 })}

@@ -3,6 +3,7 @@
 use App\Http\Controllers\{
     GuestController,
     AuthUserController,
+    FollowingController,
     LanguageController,
     PasswordResetController,
     PostController,
@@ -25,6 +26,13 @@ Route::controller(AuthUserController::class)
 
     Route::get('/followings', 'followings')
     ->name('followings');
+});
+
+Route::controller(FollowingController::class)
+->group(function ()
+{
+    Route::put('/followings/mute/{name}', 'toggleMuted');
+    Route::put('/followings/unfollow/{name}', 'destroy');
 });
 
 Route::controller(PostController::class)
