@@ -15,7 +15,7 @@ export default ({ post }: PostProps) => {
 
     function handleDelete() {
         if (confirm(__('postDeleteConfirm'))) {
-            router.delete(`/posts/${post.id}`);
+            router.delete(route('post.delete', [post.id]));
         }
     }
 

@@ -30,9 +30,8 @@ export default ({ userName }: PostCreationFormProps) => {
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
 
-        post('/posts', {
+        post(route('post.create'), {
             onSuccess: (data) => {
-                console.log(data);
                 reset('body');
             }
         });

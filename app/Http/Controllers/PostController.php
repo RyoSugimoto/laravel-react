@@ -15,16 +15,20 @@ class PostController extends Controller
     /**
      * 投稿ページ
      */
-    public function show(string $post_id)
+    public function show(string $user_name, string $post_id)
     {
         try {
+
             $post = GetPostServiceFacade::getPostById($post_id);
 
             return inertia('Post', [
                 'post' => $post,
             ]);
+
         } catch(\Exception $e) {
+
             abort(404, $e->getMessage());
+
         }
     }
 

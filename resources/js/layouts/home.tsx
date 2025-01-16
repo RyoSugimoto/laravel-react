@@ -20,9 +20,9 @@ const HomeLayout: React.FC<HomeLayoutProps> = ({ children, name, displayName }) 
             >{displayName ?? name}</h1>
             <div aria-label={__('layouts.home.name')}>{name}</div>
             <nav className="flex flex-wrap gap-4">
-                <Link href="/home">{__('layouts.home.home')}</Link>
-                <Link href="/followings">{__('layouts.home.followings')}</Link>
-                <Link href="/follow-requests">{__('layouts.home.followRequests')}</Link>
+                <Link href={route('home')}>{__('layouts.home.home')}</Link>
+                <Link href={route('followings')}>{__('layouts.home.followings')}</Link>
+                <Link href={``}>{__('layouts.home.followRequests')}</Link>
                 <LogoutButton />
             </nav>
         </Container>

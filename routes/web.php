@@ -38,11 +38,12 @@ Route::controller(FollowingController::class)
 Route::controller(PostController::class)
 ->group(function ()
 {
-    Route::prefix('/posts')
-    ->name('posts.')
+    Route::get('/{user_name}/{post_id}', 'show')->name('post');
+
+    Route::prefix('/post')
+    ->name('post.')
     ->group(function ()
     {
-        Route::get('/{id}', 'show')->name('show');
         Route::post('/', 'create')->name('create');
         Route::delete('/{id}', 'destroy')->name('delete');
     });

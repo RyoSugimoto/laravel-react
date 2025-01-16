@@ -30,7 +30,7 @@ export default ({ post }: PostItemProps) => {
 
     function handleDelete() {
         if (confirm(__('postDeleteConfirm'))) {
-            router.delete(`/posts/${post.id}`, {
+            router.delete(route('post.delete', [post.id]), {
                 preserveScroll: true,
             });
         }
@@ -67,7 +67,7 @@ export default ({ post }: PostItemProps) => {
             <CardFooter
                 className="flex gap-2"
             >
-                <Link href={`/posts/${id}`}>{__('readMore')}</Link>
+                <Link href={route('post', [userName, id])}>{__('readMore')}</Link>
                 <Button
                     type="button"
                     variant="outline"
